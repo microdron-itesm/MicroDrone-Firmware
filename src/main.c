@@ -10,7 +10,7 @@
 #include <mavlink.h>
 #include <unistd.h>
 
-#include "Tasks/HeartbeatTask.h"
+#include "Tasks/MAVStatusTask.h"
 #include "Tasks/IMUTestTask.h"
 #include "Tasks/MAVLink/MAVLinkRecvTask.h"
 #include "Tasks/MAVLink/MAVLinkSendTask.h"
@@ -27,7 +27,7 @@ int main() {
 
     g_mavLinkSendQueue = xQueueCreate(20, sizeof(mavlink_message_t));
 
-    xTaskCreate(Heartbeat_Task, "HeartbeatTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
+    xTaskCreate(MAVStatus_Task, "HeartbeatTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
     xTaskCreate(IMU_Test_Task, "IMUTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
     xTaskCreate(MAVLinkRecv_Task, "MAVLinkRecvTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
     xTaskCreate(MAVLinkSend_Task, "MAVLinkSendTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
