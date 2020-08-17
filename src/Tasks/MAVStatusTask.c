@@ -7,24 +7,9 @@
 #include <task.h>
 #include <comms.h>
 #include <mavlink.h>
-#include <bits/types/struct_timeval.h>
-#include <libnet.h>
 #include "MAVLink/MAVLinkSender.h"
 
 const TickType_t HeartbeatTask_waitTime = pdMS_TO_TICKS(10);
-
-uint64_t microsSinceEpoch()
-{
-
-    struct timeval tv;
-
-    uint64_t micros = 0;
-
-    gettimeofday(&tv, NULL);
-    micros =  ((uint64_t)tv.tv_sec) * 1000000 + tv.tv_usec;
-
-    return micros;
-}
 
 _Noreturn void MAVStatus_Task(void *pvParameters){
     uint8_t *buf = (uint8_t*) pvParameters;
@@ -45,9 +30,6 @@ _Noreturn void MAVStatus_Task(void *pvParameters){
         sendMAVLinkMessage(&msg);
 
         mavlink_msg_sys_status_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, presentSystems, enabledSystems, healthySystems, 10, 1000, -1, 0, 0, 0, 0, 0, 0, 0);
-        sendMAVLinkMessage(&msg);
-
-        mavlink_msg_system_time_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, microsSinceEpoch(), xTaskGetTickCount());
         sendMAVLinkMessage(&msg);
 
         vTaskDelay(HeartbeatTask_waitTime);
