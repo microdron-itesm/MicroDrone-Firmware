@@ -25,19 +25,20 @@ _Noreturn void MAVLinkRecv_Task(void *pvParameters) {
             mavlink_message_t msg;
             mavlink_status_t status;
 
-            printf("Bytes Received: %d\nDatagram: ", (int) recvSize);
+            //printf("Bytes Received: %d\nDatagram: ", (int) recvSize);
             for (int i = 0; i < recvSize; ++i) {
                 temp = buf[i];
-                printf("%02x ", (unsigned char) temp);
+                //printf("%02x ", (unsigned char) temp);
                 if (mavlink_parse_char(MAVLINK_COMM_0, buf[i], &msg, &status)) {
                     // Packet received
-                    printf("\nReceived packet: SYS: %d, COMP: %d, LEN: %d, MSG ID: %d\n", msg.sysid, msg.compid,
-                           msg.len, msg.msgid);
+
+                    //printf("\nReceived packet: SYS: %d, COMP: %d, LEN: %d, MSG ID: %d\n", msg.sysid, msg.compid,
+                    //       msg.len, msg.msgid);
 
                     handle_MAVLink_message(&msg);
                 }
             }
-            printf("\n");
+            //printf("\n");
         }
 
         vTaskDelay(MAVLinkRecvTask_waitTime);

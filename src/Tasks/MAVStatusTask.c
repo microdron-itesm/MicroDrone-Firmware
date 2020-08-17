@@ -35,13 +35,13 @@ _Noreturn void MAVStatus_Task(void *pvParameters){
     uint32_t presentSystems, enabledSystems, healthySystems;
     presentSystems  = 0;
     presentSystems |= MAV_SYS_STATUS_AHRS;
-    //presentSystems |= MAV_SYS_STATUS_PREARM_CHECK;
+    presentSystems |= MAV_SYS_STATUS_PREARM_CHECK;
     presentSystems |= MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS;
     presentSystems |= MAV_SYS_STATUS_SENSOR_BATTERY;
     enabledSystems = presentSystems; healthySystems = presentSystems;
 
     for(;;){
-        mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC_MISSION_FULL,   MAV_MODE_FLAG_MANUAL_INPUT_ENABLED |  MAV_MODE_MANUAL_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, 0xABBA, MAV_STATE_ACTIVE);
+        mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC,   MAV_MODE_FLAG_MANUAL_INPUT_ENABLED |  MAV_MODE_MANUAL_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, 0xDEAD, MAV_STATE_ACTIVE);
         sendMAVLinkMessage(&msg);
 
         mavlink_msg_sys_status_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, presentSystems, enabledSystems, healthySystems, 10, 1000, -1, 0, 0, 0, 0, 0, 0, 0);

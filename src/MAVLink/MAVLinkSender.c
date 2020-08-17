@@ -8,5 +8,5 @@
 
 void sendMAVLinkMessage(mavlink_message_t *msg){
     extern QueueHandle_t g_mavLinkSendQueue;
-    xQueueSendToBack(g_mavLinkSendQueue, msg, 10);
+    xQueueSendToBack(g_mavLinkSendQueue, msg, 100);
 }
