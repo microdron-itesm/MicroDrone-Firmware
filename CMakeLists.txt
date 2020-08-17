@@ -11,14 +11,16 @@ include_directories(FreeRTOS_Kernel/portable/GCC/Posix)
 include_directories(src)
 include_directories(include)
 include_directories(HAL)
+include_directories(libs/Math)
 include_directories(libs/MAVLinkV2/standard)
 
 file(GLOB_RECURSE MicroDroneFirmware_SRC
         "src/*.h"
         "src/*.c"
         "HAL/PC/*.c"
+        "libs/*.c"
         )
 
 add_executable(RTOSTest ${MicroDroneFirmware_SRC})
 
-target_link_libraries(RTOSTest FreeRTOS_Kernel)
+target_link_libraries(RTOSTest FreeRTOS_Kernel m)
