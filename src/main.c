@@ -10,6 +10,9 @@
 #include <mavlink.h>
 #include <unistd.h>
 
+#include "Tasks/HeartbeatTask.h"
+#include "Tasks/IMUTestTask.h"
+
 static void vTask1( void *pvParameters );
 static void vTask2( void *pvParameters );
 
@@ -17,42 +20,21 @@ int main() {
     printf("Hello, World!\n");
 
     mavlink_message_t msg;
-    uint8_t buf[2041];
-    uint16_t len;
+    uint8_t buf[MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t)];
 
     hal_comms_init();
 
-    float i = -3.14;
-
-    for(;;){
-        mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC, MAV_MODE_GUIDED_ARMED, 0, MAV_STATE_ACTIVE);
-        len = mavlink_msg_to_send_buffer(buf, &msg);
-        hal_comms_send_buffer(buf, len);
-
-        mavlink_msg_sys_status_pack(1, 200, &msg, 0, 0, 0, 500, 11000, -1, -1, 0, 0, 0, 0, 0, 0);
-        len = mavlink_msg_to_send_buffer(buf, &msg);
-        hal_comms_send_buffer(buf, len);
-
-        mavlink_msg_attitude_pack(1, 200, &msg, 1, i, i, i, 0.01, 0.02, 0.03);
-        len = mavlink_msg_to_send_buffer(buf, &msg);
-        hal_comms_send_buffer(buf,len);
-
-        if(i >= 3.14) i = -3.14;
-        i += 0.01;
-
-        usleep(10000);
-    }
-
-    //printf("%zu", hal_comms_send_buffer(NULL, 0));
-    hal_comms_close();
-
-    /*static xQueueHandle xTestQueue;
+    /*static xQueueHandle xTestQueue
     xTestQueue = xQueueCreate( 10, ( unsigned portBASE_TYPE ) sizeof( unsigned short ) );
     xTaskCreate( vTask1, "vTask1", configMINIMAL_STACK_SIZE, ( void * ) &xTestQueue, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vTask2, "vTask2", configMINIMAL_STACK_SIZE, ( void * ) &xTestQueue, tskIDLE_PRIORITY, NULL );
+    */
+
+    xTaskCreate(Heartbeat_Task, "HeartbeatTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
+    xTaskCreate(IMU_Test_Task, "IMUTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
 
     vTaskStartScheduler();
-    return 1;*/
+    return 1;
 
     return 0;
 }
