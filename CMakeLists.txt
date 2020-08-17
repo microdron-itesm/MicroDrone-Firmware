@@ -8,6 +8,7 @@ add_subdirectory(FreeRTOS_Kernel)
 include_directories(FreeRTOS_Kernel/include)
 include_directories(FreeRTOS_Kernel/portable/GCC/Posix)
 
+include_directories(src)
 include_directories(include)
 include_directories(HAL)
 include_directories(libs/MAVLinkV2/standard)

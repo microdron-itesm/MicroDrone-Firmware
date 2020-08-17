@@ -64,11 +64,11 @@ void hal_comms_init(){
     g_fromLen = sizeof(g_gcAddr);
 }
 
-size_t hal_comms_send_buffer(uint8_t *buf, char len){
+int hal_comms_send_buffer(uint8_t *buf, char len){
     return sendto(sock, buf, len, 0, (struct sockaddr*) &g_gcAddr, sizeof(struct sockaddr_in));
 }
 
-size_t hal_comms_recev_buffer(uint8_t *buf, char buf_len){
+int hal_comms_recev_buffer(uint8_t *buf, char buf_len){
     return recvfrom(sock, (void*) buf, buf_len, 0, (struct sockaddr *) &g_gcAddr, &g_fromLen);
 }
 

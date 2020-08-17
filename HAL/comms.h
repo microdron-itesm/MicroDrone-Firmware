@@ -14,7 +14,7 @@ void hal_comms_init();
  * @param len
  * @return
  */
-size_t hal_comms_send_buffer(uint8_t *buf, char len);
+int hal_comms_send_buffer(uint8_t *buf, char len);
 
 /**
  * Recev mesg from comms, ret bytes recev
@@ -22,6 +22,6 @@ size_t hal_comms_send_buffer(uint8_t *buf, char len);
  * @param buf_len
  * @return
  */
-size_t hal_comms_recev_buffer(uint8_t *buf, char buf_len);
+int hal_comms_recev_buffer(uint8_t *buf, char buf_len);
 
 void hal_comms_close();
