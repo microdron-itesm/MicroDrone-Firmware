@@ -10,13 +10,13 @@
  * calibration also compensates gravity
  */
 
-struct Quaternion;
-struct Vector3D;
+#include "Quaternion.h"
+#include "Vector3D.h"
 
-void estimateGravityDirection(struct Quaternion const * quaternion, struct Vector3D *gravity);
+void estimateGravityDirection(Quaternion const * quaternion, Vector3D *gravity);
 
-float getVerticalAcc(struct Vector3D const *gravity, struct Vector3D const *accMeas);
+float getVerticalAcc(Vector3D const *gravity, Vector3D const *accMeas);
 
-float getVerticalAccWithoutGravity(struct Vector3D const *gravity, struct Vector3D const *accMeas, float baseZacc);
+float getVerticalAccWithoutGravity(Vector3D const *gravity, Vector3D const *accMeas, float baseZacc);
 
 #endif //MICRODRONEFIRMWARE_SENSFUSION_H

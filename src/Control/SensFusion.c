@@ -8,7 +8,7 @@
 #include <math.h>
 
 //From https://github.com/bitcraze/crazyflie-firmware/blob/master/src/modules/src/sensfusion6.c
-void estimateGravityDirection(struct Quaternion const * quaternion, struct Vector3D *gravity){
+void estimateGravityDirection(Quaternion const * quaternion, Vector3D *gravity){
     //q0 -> qx
     //q1 -> qy
     //q2 -> qz
@@ -18,10 +18,10 @@ void estimateGravityDirection(struct Quaternion const * quaternion, struct Vecto
     gravity->z = powf(quaternion->qx, 2.0f) - powf(quaternion->qy, 2.0f) - powf(quaternion->qz, 2.0f) + powf(quaternion->qw, 2.0f);
 }
 
-float getVerticalAcc(struct Vector3D const *gravity, struct Vector3D const *accMeas){
+float getVerticalAcc(Vector3D const *gravity, Vector3D const *accMeas){
     return (accMeas->x * gravity->x + accMeas->y * gravity->y + accMeas->z * gravity->z);
 }
 
-float getVerticalAccWithoutGravity(struct Vector3D const *gravity, struct Vector3D const *accMeas, float baseZacc){
+float getVerticalAccWithoutGravity(Vector3D const *gravity, Vector3D const *accMeas, float baseZacc){
     return getVerticalAcc(gravity, accMeas) - baseZacc;
 }

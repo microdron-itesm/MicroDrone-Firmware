@@ -5,15 +5,15 @@
 #ifndef MICRODRONEFIRMWARE_QUATERNION_H
 #define MICRODRONEFIRMWARE_QUATERNION_H
 
-struct Quaternion {
+typedef struct Quaternion_s {
     float qx;
     float qy;
     float qz;
     float qw;
-};
+} Quaternion;
 
-void quatFromEulerRPY(float roll, float pitch, float yaw, struct Quaternion *q);
+void quatFromEulerRPY(float roll, float pitch, float yaw, Quaternion *q);
 
-void quatGetEulerRPY(struct Quaternion const *q, float *roll, float *pitch, float *yaw);
+void quatGetEulerRPY(Quaternion const *q, float *roll, float *pitch, float *yaw);
 
 #endif //MICRODRONEFIRMWARE_QUATERNION_H
