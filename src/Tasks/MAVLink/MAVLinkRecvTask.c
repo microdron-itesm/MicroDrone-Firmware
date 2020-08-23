@@ -20,7 +20,6 @@ _Noreturn void MAVLinkRecv_Task(void *pvParameters) {
     for (;;) {
         memset(buf, 0, bufLen);
         recvSize = hal_comms_recev_buffer(buf, bufLen);
-
         if (recvSize > 0) {
             mavlink_message_t msg;
             mavlink_status_t status;

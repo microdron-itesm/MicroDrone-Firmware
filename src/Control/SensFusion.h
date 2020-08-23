@@ -13,7 +13,7 @@
 #include "Quaternion.h"
 #include "Vector3D.h"
 
-void estimateGravityDirection(Quaternion const * quaternion, Vector3D *gravity);
+void estimateGravityDirection(mavlink_attitude_quaternion_t const * quaternion, Vector3D *gravity);
 
 float getVerticalAcc(Vector3D const *gravity, Vector3D const *accMeas);
 

@@ -4,16 +4,10 @@
 
 #ifndef MICRODRONEFIRMWARE_QUATERNION_H
 #define MICRODRONEFIRMWARE_QUATERNION_H
+#include "mavlink.h"
 
-typedef struct Quaternion_s {
-    float qx;
-    float qy;
-    float qz;
-    float qw;
-} Quaternion;
+void quatFromEulerRPY(float roll, float pitch, float yaw, mavlink_attitude_quaternion_t *q);
 
-void quatFromEulerRPY(float roll, float pitch, float yaw, Quaternion *q);
-
-void quatGetEulerRPY(Quaternion const *q, float *roll, float *pitch, float *yaw);
+void quatGetEulerRPY(mavlink_attitude_quaternion_t const *q, float *roll, float *pitch, float *yaw);
 
 #endif //MICRODRONEFIRMWARE_QUATERNION_H

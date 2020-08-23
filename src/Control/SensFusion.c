@@ -8,14 +8,14 @@
 #include <math.h>
 
 //From https://github.com/bitcraze/crazyflie-firmware/blob/master/src/modules/src/sensfusion6.c
-void estimateGravityDirection(Quaternion const * quaternion, Vector3D *gravity){
+void estimateGravityDirection(mavlink_attitude_quaternion_t const * quaternion, Vector3D *gravity){
     //q0 -> qx
     //q1 -> qy
     //q2 -> qz
     //q3 -> qw
-    gravity->x = 2.0f * (quaternion->qy * quaternion->qw - quaternion->qx * quaternion->qz);
-    gravity->y = 2.0f * (quaternion->qx * quaternion->qy + quaternion->qz * quaternion->qw);
-    gravity->z = powf(quaternion->qx, 2.0f) - powf(quaternion->qy, 2.0f) - powf(quaternion->qz, 2.0f) + powf(quaternion->qw, 2.0f);
+    gravity->x = 2.0f * (quaternion->q3 * quaternion->q1 - quaternion->q2 * quaternion->q4);
+    gravity->y = 2.0f * (quaternion->q2 * quaternion->q3 + quaternion->q4 * quaternion->q1);
+    gravity->z = powf(quaternion->q2, 2.0f) - powf(quaternion->q3, 2.0f) - powf(quaternion->q4, 2.0f) + powf(quaternion->q1, 2.0f);
 }
 
 float getVerticalAcc(Vector3D const *gravity, Vector3D const *accMeas){

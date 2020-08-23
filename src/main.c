@@ -6,7 +6,7 @@
 #include "queue.h"
 
 #include "comms.h"
-
+#include "imu.h"
 #include <mavlink.h>
 #include <unistd.h>
 
@@ -24,6 +24,7 @@ int main() {
     uint8_t buf[MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t)];
 
     hal_comms_init();
+    imu_comms_init();
 
     g_mavLinkSendQueue = xQueueCreate(20, sizeof(mavlink_message_t));
 
@@ -33,9 +34,9 @@ int main() {
     xTaskCreate(MAVLinkSend_Task, "MAVLinkSendTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
 
     vTaskStartScheduler();
+    hal_comms_close();
+    imu_comms_close();
     return 1;
-
-    return 0;
 }
 
 /********************************************************/

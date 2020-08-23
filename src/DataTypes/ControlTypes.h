@@ -18,7 +18,7 @@ typedef struct Attitude_s{
 } Attitude;
 
 typedef struct State_s {
-    Quaternion attQuaternion;
+    mavlink_attitude_quaternion_t attQuaternion;
     Pose3D pose;
     Twist3D vel;
     Vector3D acc;
@@ -31,7 +31,7 @@ typedef struct Baro_s{
 } Baro;
 
 typedef struct SensorData_s{
-    Quaternion fusedIMU;
+    mavlink_attitude_quaternion_t fusedIMU;
     uint32_t fusedIMUTimestamp;
 
     Vector3D accel;
