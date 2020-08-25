@@ -12,13 +12,13 @@
 #include <fcntl.h>
 #include <arpa/inet.h>
 
-char g_target_ip[100];
-const uint16_t g_target_recv_port = 14550;
+static char g_target_ip[100];
+static const uint16_t g_target_recv_port = 14550;
 
-struct sockaddr_in g_gcAddr, g_gcclient; //IP addr of QGroundControl server
-socklen_t g_fromLen;
+static struct sockaddr_in g_gcAddr, g_gcclient; //IP addr of QGroundControl server
+static socklen_t g_fromLen;
 
-int sock;
+static int sock;
 
 void hal_comms_init(){
     sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);

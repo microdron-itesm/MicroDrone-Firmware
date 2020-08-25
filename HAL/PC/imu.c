@@ -12,10 +12,10 @@
 #include <fcntl.h>
 #include <mavlink.h>
 
-struct sockaddr_in g_locAddr, g_client; //Local IP addr
-const uint16_t imu_recv_port = 14551;
-socklen_t g_fromLen;
-int sock; // Socket file descriptor
+static struct sockaddr_in g_locAddr, g_client; //Local IP addr
+static const uint16_t imu_recv_port = 14551;
+static socklen_t g_fromLen;
+static int sock; // Socket file descriptor
 
 mavlink_attitude_quaternion_t attitude;
 
