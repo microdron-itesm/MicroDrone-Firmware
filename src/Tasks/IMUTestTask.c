@@ -11,7 +11,7 @@
 #include <MAVLink/MAVLinkSender.h>
 #include "Quaternion.h"
 
-const TickType_t IMUTestTask_waitTime = pdMS_TO_TICKS(10);
+const TickType_t IMUTestTask_waitTime = pdMS_TO_TICKS(1);
 
 _Noreturn void IMU_Test_Task(void *pvParameters){
     uint8_t *buf = (uint8_t*) pvParameters;
