@@ -13,9 +13,15 @@
 #include <arpa/inet.h>
 
 static char g_target_ip[100];
-static const uint16_t g_target_recv_port = 14550;
 
-static struct sockaddr_in g_gcAddr, g_gcclient; //IP addr of QGroundControl server
+/**
+ * QGroundControl station tx 14550 and rx on 14551
+ */
+static const uint16_t g_target_recv_port = 14550;
+static const uint16_t g_target_send_port = 14551;
+
+static struct sockaddr_in g_gcAddr; //IP addr of Ground Control
+static struct sockaddr_in g_bindIp; //Local IP addr used for bind
 static socklen_t g_fromLen;
 
 static int sock;
@@ -29,11 +35,24 @@ void hal_comms_init(){
 
     memset(&g_gcAddr, 0, sizeof(g_gcAddr));
     g_gcAddr.sin_family = AF_INET;
-    g_gcAddr.sin_addr.s_addr = INADDR_ANY;
-    g_gcAddr.sin_port = htons(g_target_recv_port);
+    g_gcAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); //Initial address, set to whichever address it receives packages from
+    g_gcAddr.sin_port = htons(g_target_send_port);
     g_fromLen = sizeof(g_gcAddr);
 
-    int ret = fcntl(sock, F_SETFL, O_NONBLOCK | FASYNC);
+    memset(&g_bindIp, 0, sizeof(g_bindIp));
+    g_bindIp.sin_family = AF_INET;
+    g_bindIp.sin_addr.s_addr = INADDR_ANY;
+    g_bindIp.sin_port = htons(g_target_recv_port);
+
+    int ret = bind(sock, (struct sockaddr *) &g_bindIp, sizeof(g_bindIp));
+
+    if(ret < 0){
+        perror("UDP Bind failed");
+        close(sock);
+        exit(EXIT_FAILURE);
+    }
+
+    ret = fcntl(sock, F_SETFL, O_NONBLOCK | O_ASYNC);
     if(ret < 0){
         perror("Nonblocking set failed");
         close(sock);
@@ -46,7 +65,7 @@ int hal_comms_send_buffer(uint8_t *buf, char len){
 }
 
 int hal_comms_recev_buffer(uint8_t *buf, char buf_len){
-    return recvfrom(sock, (void*) buf, buf_len, 0, (struct sockaddr *) &g_gcclient, &g_fromLen);;
+    return recvfrom(sock, (void*) buf, buf_len, 0, (struct sockaddr *) &g_gcAddr, &g_fromLen);;
 }
 
 void hal_comms_close(){
