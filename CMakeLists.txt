@@ -21,6 +21,7 @@ file(GLOB_RECURSE MicroDroneFirmware_SRC
         "libs/*.c"
         )
 
-add_executable(RTOSTest ${MicroDroneFirmware_SRC})
+add_executable(MicroDroneFirmware ${MicroDroneFirmware_SRC})
 
-target_link_libraries(RTOSTest FreeRTOS_Kernel m)
+target_link_libraries(MicroDroneFirmware FreeRTOS_Kernel m)
+add_subdirectory(tests)

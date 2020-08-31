@@ -17,6 +17,7 @@
 
 QueueHandle_t g_mavLinkSendQueue;
 
+#ifndef DRONE_UNIT_TEST
 int main() {
     printf("Hello, World!\n");
 
@@ -38,6 +39,7 @@ int main() {
     imu_comms_close();
     return 1;
 }
+#endif
 
 /********************************************************/
 /* This is a stub function for FreeRTOS_Kernel */
