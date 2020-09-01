@@ -13,6 +13,7 @@ include_directories(include)
 include_directories(HAL)
 include_directories(libs/Math)
 include_directories(libs/MAVLinkV2/standard)
+include_directories(libs/UDPLib/include)
 
 file(GLOB_RECURSE MicroDroneFirmware_SRC
         "src/*.h"

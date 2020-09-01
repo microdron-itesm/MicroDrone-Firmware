@@ -5,50 +5,16 @@
 #include "imu.h"
 #include <stdio.h>
 #include <string.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <mavlink.h>
+#include <UDP.h>
 
-static struct sockaddr_in g_locAddr, g_client; //Local IP addr
-static const uint16_t imu_recv_port = 14551;
-static socklen_t g_fromLen;
-static int sock; // Socket file descriptor
+static const uint16_t udpRecvPort = 14551;
+static const uint16_t udpSendPort = 14551;
+static udp_conn_data imu_connData;
 
 mavlink_attitude_quaternion_t attitude;
 
 void imu_comms_init(){
-
-    sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if(sock == -1){
-        perror("Socket open failed");
-        exit(EXIT_FAILURE);
-    }
-
-    memset(&g_locAddr, 0, sizeof(g_locAddr));
-    memset(&g_client, 0, sizeof(g_client));
-    g_fromLen = sizeof(g_client);
-
-    g_locAddr.sin_family = AF_INET;
-    g_locAddr.sin_addr.s_addr = INADDR_ANY;
-    g_locAddr.sin_port = htons(imu_recv_port);
-
-    int ret = bind(sock, (struct sockaddr *) &g_locAddr, sizeof(struct sockaddr));
-    if(ret < 0){
-        perror("UDP bind failed");
-        close(sock);
-        exit(EXIT_FAILURE);
-    }
-
-    ret = fcntl(sock, F_SETFL,  O_NONBLOCK | O_ASYNC);
-    if(ret < 0){
-        perror("Nonblocking set failed");
-        close(sock);
-        exit(EXIT_FAILURE);
-    }
-
+    udp_conn_open_ip(&imu_connData, "localhost", udpSendPort, udpRecvPort);
 }
 
 void imu_comms_receive(){
@@ -57,7 +23,7 @@ void imu_comms_receive(){
     memset(&imu_buff, 0, sizeof(imu_buff));
 
 
-    int ret = recvfrom(sock, (void *) &imu_buff, buf_len, 0, (struct sockaddr *) &g_client, &g_fromLen);
+    int ret = udp_conn_recv(&imu_connData, imu_buff, buf_len);
     if(ret > 0){
        mavlink_message_t msg;
        mavlink_status_t status;
@@ -83,5 +49,5 @@ void imu_get_acceleration(float *ax, float *ay, float *az){
 }
 
 void imu_comms_close(){
-    close(sock);
+    udp_conn_close(&imu_connData);
 }

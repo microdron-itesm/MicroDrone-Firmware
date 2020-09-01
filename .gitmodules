@@ -1,3 +1,6 @@
 [submodule "libs/MAVLinkV2"]
 	path = libs/MAVLinkV2
 	url = https://github.com/mavlink/c_library_v2.git
+[submodule "libs/UDPLib"]
+	path = libs/UDPLib
+	url = https://github.com/microdron-itesm/UDPLib.git
