@@ -5,50 +5,24 @@
 #include "comms.h"
 #include <stdio.h>
 #include <string.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <arpa/inet.h>
+#include <UDP.h>
 
-static char g_target_ip[100];
-static const uint16_t g_target_recv_port = 14550;
+static const uint16_t udpRecvPort = 14550;
+static const uint16_t udpSendPort = 14550;
+static udp_conn_data comms_connData;
 
-static struct sockaddr_in g_gcAddr, g_gcclient; //IP addr of QGroundControl server
-static socklen_t g_fromLen;
-
-static int sock;
-
-void hal_comms_init(){
-    sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if(sock == -1){
-        perror("Socket open failed");
-        exit(EXIT_FAILURE);
-    }
-
-    memset(&g_gcAddr, 0, sizeof(g_gcAddr));
-    g_gcAddr.sin_family = AF_INET;
-    g_gcAddr.sin_addr.s_addr = INADDR_ANY;
-    g_gcAddr.sin_port = htons(g_target_recv_port);
-    g_fromLen = sizeof(g_gcAddr);
-
-    int ret = fcntl(sock, F_SETFL, O_NONBLOCK | FASYNC);
-    if(ret < 0){
-        perror("Nonblocking set failed");
-        close(sock);
-        exit(EXIT_FAILURE);
-    }
+ssize_t hal_comms_init(){
+    return udp_conn_open_ip(&comms_connData, "localhost", udpSendPort, udpRecvPort);
 }
 
-int hal_comms_send_buffer(uint8_t *buf, char len){
-    return sendto(sock, buf, len, 0, (struct sockaddr*) &g_gcAddr, sizeof(struct sockaddr_in));
+ssize_t hal_comms_send_buffer(uint8_t *buf, char len){
+    return udp_conn_send(&comms_connData, buf, len);
 }
 
-int hal_comms_recev_buffer(uint8_t *buf, char buf_len){
-    return recvfrom(sock, (void*) buf, buf_len, 0, (struct sockaddr *) &g_gcclient, &g_fromLen);;
+ssize_t hal_comms_recv_buffer(uint8_t *buf, char buf_len){
+    return udp_conn_recv(&comms_connData, buf, buf_len);
 }
 
-void hal_comms_close(){
-    close(sock);
+ssize_t hal_comms_close(){
+    return udp_conn_close(&comms_connData);
 }
