@@ -7,8 +7,8 @@
 #include <string.h>
 #include <UDP.h>
 
-static const uint16_t udpRecvPort = 14551;
-static const uint16_t udpSendPort = 14551;
+static const uint16_t udpRecvPort = 14552;
+static const uint16_t udpSendPort = 14553;
 static udp_conn_data imu_connData;
 
 mavlink_attitude_quaternion_t attitude;
@@ -17,7 +17,7 @@ void imu_comms_init(){
     udp_conn_open_ip(&imu_connData, "localhost", udpSendPort, udpRecvPort);
 }
 
-void imu_comms_receive(){
+bool imu_comms_receive(){
     size_t buf_len = MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t);
     uint8_t imu_buff[buf_len];
     memset(&imu_buff, 0, sizeof(imu_buff));
@@ -33,11 +33,13 @@ void imu_comms_receive(){
                if(msg.msgid == MAVLINK_MSG_ID_ATTITUDE_QUATERNION){
                    mavlink_msg_attitude_quaternion_decode(&msg, &new_attitude);
                    attitude = new_attitude;
+                   return true;
                }
            }
        }
-
    }
+
+    return false;
 }
 
 void imu_get_attitude(mavlink_attitude_quaternion_t *q){

@@ -9,7 +9,7 @@
 
 void imu_comms_init();
 
-void imu_comms_receive();
+bool imu_comms_receive();
 
 void imu_get_attitude(mavlink_attitude_quaternion_t *q);
 

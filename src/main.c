@@ -24,7 +24,13 @@ int main() {
     mavlink_message_t msg;
     uint8_t buf[MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t)];
 
-    hal_comms_init();
+    ssize_t ret = hal_comms_init();
+
+    if(ret < 0){
+        perror("HAL Comms Init failed");
+        exit(EXIT_FAILURE);
+    }
+
     imu_comms_init();
 
     g_mavLinkSendQueue = xQueueCreate(20, sizeof(mavlink_message_t));

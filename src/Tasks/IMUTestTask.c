@@ -23,14 +23,15 @@ _Noreturn void IMU_Test_Task(void *pvParameters){
     float roll = 0, pitch = 0, yaw = 0;
     int i = 0;
     for(;;){
-        imu_comms_receive();
-        imu_get_attitude(&attitude);
-        //printf("%0.2f %0.2f\n", orientation.pitch, orientation.roll);
-        quatGetEulerRPY(&attitude, &roll, &pitch, &yaw);
-        //printf("%f\t%f\t%f\n", roll, pitch, yaw);
+        if(imu_comms_receive()){
+            imu_get_attitude(&attitude);
+            //printf("%0.2f %0.2f\n", orientation.pitch, orientation.roll);
+            quatGetEulerRPY(&attitude, &roll, &pitch, &yaw);
+            //printf("%f\t%f\t%f\n", roll, pitch, yaw);
 
-        mavlink_msg_attitude_pack(1, 200, &msg, 1, roll ,pitch,yaw, attitude.rollspeed, attitude.pitchspeed, attitude.yawspeed);
-        sendMAVLinkMessage(&msg);
+            mavlink_msg_attitude_pack(1, 200, &msg, 1, roll ,pitch,yaw, attitude.rollspeed, attitude.pitchspeed, attitude.yawspeed);
+            sendMAVLinkMessage(&msg);
+        }
 
         vTaskDelay(IMUTestTask_waitTime);
     }

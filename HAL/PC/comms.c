@@ -7,12 +7,12 @@
 #include <string.h>
 #include <UDP.h>
 
-static const uint16_t udpRecvPort = 14550;
+static const uint16_t udpRecvPort = 14551;
 static const uint16_t udpSendPort = 14550;
 static udp_conn_data comms_connData;
 
 ssize_t hal_comms_init(){
-    return udp_conn_open_ip(&comms_connData, "localhost", udpSendPort, udpRecvPort);
+    return udp_conn_open_ip(&comms_connData, "127.0.0.1", udpSendPort, udpRecvPort);
 }
 
 ssize_t hal_comms_send_buffer(uint8_t *buf, char len){

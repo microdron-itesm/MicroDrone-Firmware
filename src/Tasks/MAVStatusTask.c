@@ -9,7 +9,7 @@
 #include <mavlink.h>
 #include "MAVLink/MAVLinkSender.h"
 
-const TickType_t HeartbeatTask_waitTime = pdMS_TO_TICKS(10);
+const TickType_t HeartbeatTask_waitTime = pdMS_TO_TICKS(1000);
 
 _Noreturn void MAVStatus_Task(void *pvParameters){
     uint8_t *buf = (uint8_t*) pvParameters;
