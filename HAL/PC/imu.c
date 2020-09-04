@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <UDP.h>
+#include "PC_HAL_CONFIG.h"
 
 static const uint16_t udpRecvPort = 14552;
 static const uint16_t udpSendPort = 14553;
@@ -14,7 +15,7 @@ static udp_conn_data imu_connData;
 mavlink_attitude_quaternion_t attitude;
 
 void imu_comms_init(){
-    udp_conn_open_ip(&imu_connData, "localhost", udpSendPort, udpRecvPort);
+    udp_conn_open_ip(&imu_connData, TARGET_IP, IMU_TX_PORT, IMU_RX_PORT);
 }
 
 bool imu_comms_receive(){
