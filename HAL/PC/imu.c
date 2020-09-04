@@ -5,17 +5,13 @@
 #include "imu.h"
 #include <stdio.h>
 #include <string.h>
-#include <UDP.h>
 #include "PC_HAL_CONFIG.h"
-
-static const uint16_t udpRecvPort = 14552;
-static const uint16_t udpSendPort = 14553;
-static udp_conn_data imu_connData;
+#include "simulatorComms.h"
 
 mavlink_attitude_quaternion_t attitude;
 
 void imu_comms_init(){
-    udp_conn_open_ip(&imu_connData, TARGET_IP, IMU_TX_PORT, IMU_RX_PORT);
+    hal_sim_comms_init();
 }
 
 bool imu_comms_receive(){
@@ -24,7 +20,7 @@ bool imu_comms_receive(){
     memset(&imu_buff, 0, sizeof(imu_buff));
 
 
-    int ret = udp_conn_recv(&imu_connData, imu_buff, buf_len);
+    int ret = hal_sim_comms_recv_buffer(imu_buff, buf_len);
     if(ret > 0){
        mavlink_message_t msg;
        mavlink_status_t status;
@@ -52,5 +48,5 @@ void imu_get_acceleration(float *ax, float *ay, float *az){
 }
 
 void imu_comms_close(){
-    udp_conn_close(&imu_connData);
+    hal_sim_comms_close();
 }
