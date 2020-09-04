@@ -4,19 +4,34 @@
 
 #include "motors.h"
 #include <string.h>
-#include "UDP.h"
+#include "simulatorComms.h"
+#include <mavlink.h>
+#include <stdlib.h>
 
-static udp_conn_data connData;
 static motor_value currentSetpoint;
+static size_t bufLen = MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t);
+static uint8_t *messageBuffer;
 
 ssize_t hal_motors_init(){
+    hal_sim_comms_init();
+    messageBuffer = malloc(bufLen);
+    memset(messageBuffer, 0, bufLen);
     return 0;
-    //return udp_conn_open_ip(&connData, "127.0.0.1", 14554, 14555);
 }
 
 ssize_t hal_motors_write(const motor_value * value){
     currentSetpoint = *value;
-    return 0;
+
+    mavlink_message_t msg;
+    float actuators[4];
+    actuators[0] = value->frontLeft;
+    actuators[1] = value->frontRight;
+    actuators[2] = value->backLeft;
+    actuators[3] = value->backRight;
+
+    mavlink_msg_actuator_output_status_pack(1, 200, &msg, 1, 4, actuators);
+    uint16_t size = mavlink_msg_to_send_buffer(messageBuffer, &msg);
+    return hal_sim_comms_send_buffer(messageBuffer, size);
 }
 
 ssize_t hal_motors_get(motor_value * value){
@@ -25,5 +40,6 @@ ssize_t hal_motors_get(motor_value * value){
 }
 
 ssize_t hal_motors_close(){
+    hal_sim_comms_init();
     return 0;
 }
