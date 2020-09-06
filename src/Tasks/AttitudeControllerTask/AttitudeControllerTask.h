@@ -1,0 +1,10 @@
+//
+// Created by abiel on 9/6/20.
+//
+
+#ifndef MICRODRONEFIRMWARE_ATTITUDECONTROLLERTASK_H
+#define MICRODRONEFIRMWARE_ATTITUDECONTROLLERTASK_H
+
+_Noreturn void AttitudeControllerTask(void *pvParameters);
+
+#endif //MICRODRONEFIRMWARE_ATTITUDECONTROLLERTASK_H

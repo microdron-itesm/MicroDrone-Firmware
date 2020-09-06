@@ -8,7 +8,7 @@
 #include <mavlink.h>
 #include <stdlib.h>
 
-static motor_value currentSetpoint;
+static MotorValues currentSetpoint;
 static size_t bufLen = MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t);
 static uint8_t *messageBuffer;
 
@@ -19,7 +19,7 @@ ssize_t hal_motors_init(){
     return 0;
 }
 
-ssize_t hal_motors_write(const motor_value * value){
+ssize_t hal_motors_write(const MotorValues * value){
     currentSetpoint = *value;
 
     mavlink_message_t msg;
@@ -34,7 +34,7 @@ ssize_t hal_motors_write(const motor_value * value){
     return hal_sim_comms_send_buffer(messageBuffer, size);
 }
 
-ssize_t hal_motors_get(motor_value * value){
+ssize_t hal_motors_get(MotorValues * value){
     memcpy(value, &currentSetpoint, sizeof(&value));
     return 0;
 }

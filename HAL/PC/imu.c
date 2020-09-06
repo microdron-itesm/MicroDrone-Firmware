@@ -39,8 +39,12 @@ bool imu_comms_receive(){
     return false;
 }
 
-void imu_get_attitude(mavlink_attitude_quaternion_t *q){
+void imu_get_attitude_quaternion(mavlink_attitude_quaternion_t *q){
     *q = attitude;
+}
+
+void imu_get_attitude(float *roll, float *pitch, float *yaw){
+    quatGetEulerRPY(&attitude, roll, pitch, yaw);
 }
 
 void imu_get_acceleration(float *ax, float *ay, float *az){

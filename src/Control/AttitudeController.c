@@ -5,7 +5,7 @@
 #include "AttitudeController.h"
 #include "Utils/num.h"
 
-ssize_t AttitudeController_update(AttitudeControllerData *data, const Attitude *imu, motor_value *values){
+ssize_t AttitudeController_update(AttitudeControllerData *data, const Attitude *imu, MotorValues *values){
     float yawRate = PID_Update(&data->yawPID, data->setpoint.yaw, imu->yaw);
     float rollRate = PID_Update(&data->rollPID, data->setpoint.roll, imu->roll);
     float pitchRate = PID_Update(&data->pitchPID, data->setpoint.pitch, imu->pitch);

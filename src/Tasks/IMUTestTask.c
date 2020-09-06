@@ -24,7 +24,7 @@ _Noreturn void IMU_Test_Task(void *pvParameters){
     int i = 0;
     for(;;){
         if(imu_comms_receive()){
-            imu_get_attitude(&attitude);
+            imu_get_attitude_quaternion(&attitude);
             //printf("%0.2f %0.2f\n", orientation.pitch, orientation.roll);
             quatGetEulerRPY(&attitude, &roll, &pitch, &yaw);
             //printf("%f\t%f\t%f\n", roll, pitch, yaw);

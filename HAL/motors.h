@@ -11,13 +11,13 @@
 typedef struct motor_value_s {
     uint16_t frontLeft, frontRight;
     uint16_t backLeft, backRight;
-} motor_value;
+} MotorValues;
 
 ssize_t hal_motors_init();
 
-ssize_t hal_motors_write(const motor_value * value);
+ssize_t hal_motors_write(const MotorValues * value);
 
-ssize_t hal_motors_get(motor_value * value);
+ssize_t hal_motors_get(MotorValues * value);
 
 ssize_t hal_motors_close();
 

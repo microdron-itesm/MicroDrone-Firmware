@@ -22,6 +22,6 @@ typedef struct AttitudeControllerData_s{
  * Simple attitude controller which uses PIDs to control roll, pitch and yaw
  */
 
-ssize_t AttitudeController_update(AttitudeControllerData *data, const Attitude *imu, motor_value *values);
+ssize_t AttitudeController_update(AttitudeControllerData *data, const Attitude *imu, MotorValues *values);
 
 #endif //MICRODRONEFIRMWARE_ATTITUDECONTROLLER_H
