@@ -12,7 +12,6 @@ typedef struct PIDConfig_s{
 
 typedef struct PIDData_s {
     PIDConfig config;
-    float setpoint;
 
     float integral;
     float prevError;
@@ -22,6 +21,6 @@ typedef struct PIDData_s {
  * Simple PID Impl
  */
 
-float PID_Update(PIDData *data, float sensor);
+float PID_Update(PIDData *data, float setpoint, float sensor);
 
 #endif //MICRODRONEFIRMWARE_PID_H
