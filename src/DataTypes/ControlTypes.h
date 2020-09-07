@@ -18,6 +18,13 @@ typedef struct Attitude_s{
     float height;
 } Attitude;
 
+typedef struct JoystickInput_s{
+    float x;
+    float y;
+    float z;
+    float r;
+} JoystickInput;
+
 typedef struct State_s {
     mavlink_attitude_quaternion_t attQuaternion;
     Pose3D pose;

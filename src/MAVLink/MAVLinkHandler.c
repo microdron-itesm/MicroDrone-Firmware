@@ -6,6 +6,8 @@
 #include "MAVLinkSender.h"
 #include <stdlib.h>
 
+JoystickInput g_latestJoystickInput;
+
 void handle_MAVLink_message(mavlink_message_t *msg){
     switch(msg->msgid){
         case MAVLINK_MSG_ID_PING:
@@ -41,5 +43,9 @@ void handle_message_manual_control(mavlink_message_t *msg){
     mavlink_manual_control_t  man;
     mavlink_msg_manual_control_decode(msg, &man);
 
-    printf("%d,%d,%d\n", man.x, man.y, man.z);
+    //printf("%d,%d,%d,%d\n", man.x, man.y, man.z,man.r);
+    g_latestJoystickInput.x = man.x;
+    g_latestJoystickInput.y = man.y;
+    g_latestJoystickInput.z = man.z;
+    g_latestJoystickInput.r = man.r;
 }

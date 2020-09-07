@@ -6,6 +6,9 @@
 #define MICRODRONEFIRMWARE_MAVLINKHANDLER_H
 
 #include <mavlink.h>
+#include <DataTypes/ControlTypes.h>
+
+extern JoystickInput g_latestJoystickInput;
 
 void handle_MAVLink_message(mavlink_message_t *msg);
 
