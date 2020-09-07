@@ -5,13 +5,15 @@
 #include "MAVStatusTask.h"
 #include <FreeRTOS.h>
 #include <task.h>
-#include <comms.h>
+#include "imu.h"
+#include "tof.h"
 #include <mavlink.h>
 #include "MAVLink/MAVLinkSender.h"
 
-const TickType_t HeartbeatTask_waitTime = pdMS_TO_TICKS(1000);
+const TickType_t StatusTask_waitTime = pdMS_TO_TICKS(100);
 
 _Noreturn void MAVStatus_Task(void *pvParameters){
+
     uint8_t *buf = (uint8_t*) pvParameters;
 
     mavlink_message_t msg;
@@ -25,13 +27,23 @@ _Noreturn void MAVStatus_Task(void *pvParameters){
     presentSystems |= MAV_SYS_STATUS_SENSOR_BATTERY;
     enabledSystems = presentSystems; healthySystems = presentSystems;
 
+    float roll = 0.0f, pitch = 0.0f, yaw = 0.0f;
+    mavlink_distance_sensor_t distanceSensor;
     for(;;){
+        tof_get_sensor(&distanceSensor);
+        mavlink_msg_distance_sensor_pack(1, 200, &msg, distanceSensor.time_boot_ms, distanceSensor.min_distance, distanceSensor.max_distance, distanceSensor.current_distance, distanceSensor.type, distanceSensor.id, distanceSensor.orientation, distanceSensor.covariance, distanceSensor.horizontal_fov, distanceSensor.vertical_fov, distanceSensor.quaternion, distanceSensor.signal_quality);
+        sendMAVLinkMessage(&msg);
+
+        imu_get_attitude(&roll, &pitch, &yaw);
+        mavlink_msg_attitude_pack(1, 200, &msg, 1, roll ,pitch,yaw, 0, 0, 0);
+        sendMAVLinkMessage(&msg);
+
         mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC,   MAV_MODE_FLAG_MANUAL_INPUT_ENABLED |  MAV_MODE_MANUAL_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, 0xDEAD, MAV_STATE_ACTIVE);
         sendMAVLinkMessage(&msg);
 
         mavlink_msg_sys_status_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, presentSystems, enabledSystems, healthySystems, 10, 1000, -1, 0, 0, 0, 0, 0, 0, 0);
         sendMAVLinkMessage(&msg);
 
-        vTaskDelay(HeartbeatTask_waitTime);
+        vTaskDelay(StatusTask_waitTime);
     }
 }

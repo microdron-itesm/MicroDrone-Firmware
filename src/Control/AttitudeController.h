@@ -11,7 +11,7 @@
 #include "DataTypes/ControlTypes.h"
 
 typedef struct AttitudeControllerData_s{
-    PIDData rollPID, pitchPID, yawPID;
+    PIDData rollPID, pitchPID, yawPID, heightPID;
     float kValue;
     float maxOutput;
 

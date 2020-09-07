@@ -5,6 +5,6 @@
 #ifndef MICRODRONEFIRMWARE_ATTITUDECONTROLLERTASK_H
 #define MICRODRONEFIRMWARE_ATTITUDECONTROLLERTASK_H
 
-_Noreturn void AttitudeControllerTask(void *pvParameters);
+_Noreturn void AttitudeController_Task(void *pvParameters);
 
 #endif //MICRODRONEFIRMWARE_ATTITUDECONTROLLERTASK_H

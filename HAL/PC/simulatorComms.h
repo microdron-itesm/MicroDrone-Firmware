@@ -23,7 +23,7 @@ ssize_t hal_sim_comms_init();
  * @param len
  * @return
  */
-ssize_t hal_sim_comms_send_buffer(uint8_t *buf, char len);
+ssize_t hal_sim_comms_send_buffer(uint8_t *buf, size_t len);
 
 /**
  * Recev mesg from comms, ret bytes recev
@@ -31,7 +31,8 @@ ssize_t hal_sim_comms_send_buffer(uint8_t *buf, char len);
  * @param buf_len
  * @return
  */
-ssize_t hal_sim_comms_recv_buffer(uint8_t *buf, char buf_len);
+ssize_t hal_sim_comms_recv_buffer(uint8_t *buf, size_t buf_len);
+
 
 ssize_t hal_sim_comms_close();
 

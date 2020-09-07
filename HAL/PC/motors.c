@@ -28,7 +28,6 @@ ssize_t hal_motors_write(const MotorValues * value){
     actuators[1] = value->frontRight;
     actuators[2] = value->backLeft;
     actuators[3] = value->backRight;
-
     mavlink_msg_actuator_output_status_pack(1, 200, &msg, 1, 4, actuators);
     uint16_t size = mavlink_msg_to_send_buffer(messageBuffer, &msg);
     return hal_sim_comms_send_buffer(messageBuffer, size);

@@ -5,6 +5,7 @@
 #include "simulatorComms.h"
 #include "UDP.h"
 #include "PC_HAL_CONFIG.h"
+#include "tof.h"
 
 static udp_conn_data simComms_connData;
 static bool hasInit = false;
@@ -18,12 +19,11 @@ ssize_t hal_sim_comms_init(){
 
     return 0;
 }
-
-ssize_t hal_sim_comms_send_buffer(uint8_t *buf, char len){
+ssize_t hal_sim_comms_send_buffer(uint8_t *buf, size_t len){
     return udp_conn_send(&simComms_connData, buf, len);
 }
 
-ssize_t hal_sim_comms_recv_buffer(uint8_t *buf, char buf_len){
+ssize_t hal_sim_comms_recv_buffer(uint8_t *buf, size_t buf_len){
     return udp_conn_recv(&simComms_connData, buf, buf_len);
 }
 

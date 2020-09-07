@@ -15,6 +15,7 @@ typedef struct Attitude_s{
     float roll;
     float pitch;
     float yaw;
+    float height;
 } Attitude;
 
 typedef struct State_s {
