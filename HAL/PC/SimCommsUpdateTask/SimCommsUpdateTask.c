@@ -31,10 +31,14 @@ _Noreturn void SimCommsUpdate_Task(void *pvParameters){
                         case MAVLINK_MSG_ID_DISTANCE_SENSOR:
                             mavlink_msg_distance_sensor_decode(&msg, &distanceSensor);
                             tof_sensor_override(distanceSensor);
+//                            printf("%d\n", distanceSensor.current_distance);
                             break;
                         case MAVLINK_MSG_ID_ATTITUDE_QUATERNION:
                             mavlink_msg_attitude_quaternion_decode(&msg, &new_attitude);
                             imu_attitude_override(new_attitude);
+//                            float roll, pitch, yaw;
+//                            imu_get_attitude(&roll, &pitch, &yaw);
+//                            printf("%f\t%f\t%f\n", roll, pitch, yaw);
                             break;
                         default:
                             break;
