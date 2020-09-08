@@ -15,7 +15,7 @@ void tof_sensor_override(mavlink_distance_sensor_t newHeight);
 
 void tof_get_sensor(mavlink_distance_sensor_t *sensor);
 
-void tof_get_height(float* height);
+void tof_get_height(float* height, float roll, float pitch);
 
 void tof_comms_close();
 

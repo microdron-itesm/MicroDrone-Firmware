@@ -20,8 +20,8 @@ void tof_get_sensor(mavlink_distance_sensor_t *sensor){
     *sensor = distanceSensor;
 }
 
-void tof_get_height(float* height){
-    *height = distanceSensor.current_distance;
+void tof_get_height(float* height, float roll, float pitch){
+    *height = (float) distanceSensor.current_distance * cosf(roll) * cosf(pitch);
 }
 
 void tof_comms_close(){

@@ -68,7 +68,7 @@ _Noreturn void AttitudeController_Task(void *pvParameters){
         data.setpoint.yaw = (float) g_latestJoystickInput.r / 5000.0f;
 
         imu_get_attitude(&currentAtt.roll, &currentAtt.pitch, &currentAtt.yaw);
-        tof_get_height(&currentAtt.height);
+        tof_get_height(&currentAtt.height, currentAtt.roll, currentAtt.pitch);
 
         currentAtt.height /= 100.0f;
         AttitudeController_update(&data, &currentAtt, &values);
