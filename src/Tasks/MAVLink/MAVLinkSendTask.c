@@ -10,7 +10,7 @@
 #include <queue.h>
 #include "MAVLink/MAVLinkHandler.h"
 
-const TickType_t MAVLINKSendTask_WaitTime = pdMS_TO_TICKS(10);
+const TickType_t MAVLINKSendTask_WaitTime = pdMS_TO_TICKS(1);
 
 _Noreturn void MAVLinkSend_Task(void *pvParameters) {
     extern QueueHandle_t g_mavLinkSendQueue;

@@ -45,7 +45,7 @@ int main() {
     tof_comms_init();
     hal_motors_init();
 
-    g_mavLinkSendQueue = xQueueCreate(20, sizeof(mavlink_message_t));
+    g_mavLinkSendQueue = xQueueCreate(30, sizeof(mavlink_message_t));
 
     xTaskCreate(MAVStatus_Task, "HeartbeatTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
     xTaskCreate(IMUUpdate_Task, "IMUTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
