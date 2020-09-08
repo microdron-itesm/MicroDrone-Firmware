@@ -20,7 +20,7 @@ _Noreturn void MAVLinkSend_Task(void *pvParameters) {
     uint16_t len;
 
     for (;;) {
-        if(xQueueReceive(g_mavLinkSendQueue, &msg, 0) == pdTRUE) {
+        while(xQueueReceive(g_mavLinkSendQueue, &msg, 0) == pdTRUE) {
             len = mavlink_msg_to_send_buffer(buf, &msg);
             hal_comms_send_buffer(buf, len);
         }
