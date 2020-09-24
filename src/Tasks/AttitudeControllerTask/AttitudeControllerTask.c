@@ -67,7 +67,7 @@ _Noreturn void AttitudeController_Task(void *pvParameters){
         data.setpoint.pitch = (float) g_latestJoystickInput.y / 100.0;
         data.setpoint.yaw = (float) g_latestJoystickInput.r / 100.0;
 
-        printf("%.3f\t%.3f\t%.3f\t%.3f\n", data.setpoint.roll, data.setpoint.pitch, data.setpoint.yaw, data.setpoint.height);
+        //printf("%.3f\t%.3f\t%.3f\t%.3f\n", data.setpoint.roll, data.setpoint.pitch, data.setpoint.yaw, data.setpoint.height);
 
         imu_get_attitude(&currentAtt.roll, &currentAtt.pitch, &currentAtt.yaw);
         tof_get_height(&currentAtt.height, currentAtt.roll, currentAtt.pitch);

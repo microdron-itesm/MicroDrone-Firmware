@@ -4,3 +4,6 @@
 [submodule "libs/UDPLib"]
 	path = libs/UDPLib
 	url = https://github.com/microdron-itesm/UDPLib.git
+[submodule "libs/EmbeddedLapack"]
+	path = libs/EmbeddedLapack
+	url = https://github.com/DanielMartensson/EmbeddedLapack.git

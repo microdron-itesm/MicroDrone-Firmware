@@ -14,6 +14,7 @@ include_directories(HAL)
 include_directories(libs/Math)
 include_directories(libs/MAVLinkV2/standard)
 include_directories(libs/UDPLib/include)
+include_directories(libs/EmbeddedLapack/EmbeddedLapack/src/)
 
 file(GLOB_RECURSE MicroDroneFirmware_SRC
         "src/*.h"
@@ -21,6 +22,8 @@ file(GLOB_RECURSE MicroDroneFirmware_SRC
         "HAL/PC/*.c"
         "libs/*.c"
         )
+
+list(REMOVE_ITEM MicroDroneFirmware_SRC ${CMAKE_CURRENT_SOURCE_DIR}/libs/EmbeddedLapack/EmbeddedLapack/src/main.c)
 
 add_executable(MicroDroneFirmware ${MicroDroneFirmware_SRC})
 
