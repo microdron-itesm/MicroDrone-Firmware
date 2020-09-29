@@ -11,10 +11,10 @@ static udp_conn_data simComms_connData;
 static bool hasInit = false;
 static bool hasClosed = false;
 
-ssize_t hal_sim_comms_init(){
+ssize_t hal_sim_comms_init(udpConnOptions *options){
     if(!hasInit){
         hasInit = true;
-        return udp_conn_open_ip(&simComms_connData, SIM_TARGET_IP, SIM_COMMS_TX_PORT, SIM_COMMS_RX_PORT);
+        return udp_conn_open_ip(&simComms_connData, options->targetIp, options->txPort, options->rxPort);
     }
 
     return 0;

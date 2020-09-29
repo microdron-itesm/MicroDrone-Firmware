@@ -10,8 +10,11 @@
 
 static udp_conn_data comms_connData;
 
-ssize_t hal_comms_init(){
-    return udp_conn_open_ip(&comms_connData, TARGET_IP, COMMS_TX_PORT, COMMS_RX_PORT);
+ssize_t hal_comms_init(void *options, size_t size){
+    if(size != sizeof(udpConnOptions)) return -1;
+    udpConnOptions *connOptions = (udpConnOptions*) options;
+
+    return udp_conn_open_ip(&comms_connData, connOptions->targetIp, connOptions->txPort, connOptions->rxPort);
 }
 
 ssize_t hal_comms_send_buffer(uint8_t *buf, char len){

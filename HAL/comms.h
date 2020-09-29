@@ -7,7 +7,7 @@
 /**
  * Initialize comms
  */
-ssize_t hal_comms_init();
+ssize_t hal_comms_init(void *options, size_t size);
 
 /**
  * Send buffer over comms, ret bytes sent

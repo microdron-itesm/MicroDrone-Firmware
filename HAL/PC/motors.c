@@ -13,7 +13,6 @@ static size_t bufLen = MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t);
 static uint8_t *messageBuffer;
 
 ssize_t hal_motors_init(){
-    hal_sim_comms_init();
     messageBuffer = malloc(bufLen);
     memset(messageBuffer, 0, bufLen);
     return 0;
@@ -39,6 +38,5 @@ ssize_t hal_motors_get(MotorValues * value){
 }
 
 ssize_t hal_motors_close(){
-    hal_sim_comms_init();
     return 0;
 }

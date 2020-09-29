@@ -7,7 +7,13 @@
 
 #include <stdint.h>
 
-static const char TARGET_IP[] = "127.0.0.1";
+typedef struct udpConnOptions_s {
+    char *targetIp;
+    uint16_t txPort;
+    uint16_t rxPort;
+} udpConnOptions;
+
+static const char COMMS_TARGET_IP[] = "127.0.0.1";
 static const char SIM_TARGET_IP[] = "127.0.0.1";
 
 static const uint16_t COMMS_TX_PORT = 14550;
