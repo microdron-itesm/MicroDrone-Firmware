@@ -18,6 +18,7 @@
 #include "Tasks/IMUUpdateTask.h"
 #include "Tasks/TOFUpdateTask.h"
 #include "Tasks/AttitudeControllerTask/AttitudeControllerTask.h"
+#include "Tasks/MPCTask/MPCTask.h"
 #include "Tasks/MAVLink/MAVLinkRecvTask.h"
 #include "Tasks/MAVLink/MAVLinkSendTask.h"
 
@@ -151,6 +152,7 @@ int main(int argc, char **argv) {
     xTaskCreate(MAVLinkRecv_Task, "MAVLinkRecvTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
     xTaskCreate(MAVLinkSend_Task, "MAVLinkSendTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
     xTaskCreate(AttitudeController_Task, "AttitudeControllerTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
+    xTaskCreate(MPC_Task, "MPCTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
     xTaskCreate(TOFUpdate_Task, "TOFUpdateTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);
 #ifdef PC
     xTaskCreate(SimCommsUpdate_Task, "SimCommsUpdateTask", configMINIMAL_STACK_SIZE, (void*) buf, 1, NULL);

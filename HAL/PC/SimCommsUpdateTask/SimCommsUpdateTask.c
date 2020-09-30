@@ -8,6 +8,7 @@
 #include "mavlink.h"
 #include "tof.h"
 #include "imu.h"
+#include "PC/sim.h"
 
 const TickType_t SimCommsUpdate_waitTime = pdMS_TO_TICKS(1);
 
@@ -24,6 +25,7 @@ _Noreturn void SimCommsUpdate_Task(void *pvParameters){
             mavlink_status_t status;
             mavlink_distance_sensor_t distanceSensor;
             mavlink_attitude_quaternion_t new_attitude;
+            mavlink_vicon_position_estimate_t gazebo_position;
 
             for (int i = 0; i < ret; ++i) {
                 if (mavlink_parse_char(MAVLINK_COMM_0, imu_buff[i], &msg, &status)) {
@@ -39,6 +41,14 @@ _Noreturn void SimCommsUpdate_Task(void *pvParameters){
 //                            float roll, pitch, yaw;
 //                            imu_get_attitude(&roll, &pitch, &yaw);
 //                            printf("%f\t%f\t%f\n", roll, pitch, yaw);
+                            break;
+                        case MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE:
+                            mavlink_msg_vicon_position_estimate_decode(&msg, &gazebo_position);
+                            Pose3D pose;
+                            pose.x = gazebo_position.x;
+                            pose.y = gazebo_position.y;
+                            pose.z = gazebo_position.z;
+                            sim_pose_set(&pose);
                             break;
                         default:
                             break;

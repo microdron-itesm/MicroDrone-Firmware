@@ -13,11 +13,18 @@ typedef struct motor_value_s {
     uint16_t backLeft, backRight;
 } MotorValues;
 
+typedef struct motor_velocities_s {
+    float frontLeft, frontRight;
+    float backLeft, backRight;
+} MotorVelocities;
+
 ssize_t hal_motors_init();
 
 ssize_t hal_motors_write(const MotorValues * value);
 
 ssize_t hal_motors_get(MotorValues * value);
+
+ssize_t hal_motors_get_velocity(MotorVelocities *value); //Returns estimated velocity in rad/s
 
 ssize_t hal_motors_close();
 

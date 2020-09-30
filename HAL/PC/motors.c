@@ -37,6 +37,16 @@ ssize_t hal_motors_get(MotorValues * value){
     return 0;
 }
 
+ssize_t hal_motors_get_velocity(MotorVelocities *value){
+    //TODO Implement conversion function
+    value->frontLeft = currentSetpoint.frontLeft;
+    value->frontRight = currentSetpoint.frontRight;
+    value->backLeft = currentSetpoint.backLeft;
+    value->backRight = currentSetpoint.backRight;
+
+    return 0;
+}
+
 ssize_t hal_motors_close(){
     return 0;
 }

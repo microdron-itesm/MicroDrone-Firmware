@@ -11,7 +11,7 @@
 #include "motors.h"
 #include "MAVLink/MAVLinkHandler.h"
 
-const TickType_t ATTITUDE_CONTROLLER_WAIT_TIME = pdMS_TO_TICKS(10);
+static const TickType_t ATTITUDE_CONTROLLER_WAIT_TIME = pdMS_TO_TICKS(10);
 
 _Noreturn void AttitudeController_Task(void *pvParameters){
     AttitudeControllerData data;

@@ -7,3 +7,6 @@
 [submodule "libs/EmbeddedLapack"]
 	path = libs/EmbeddedLapack
 	url = https://github.com/DanielMartensson/EmbeddedLapack.git
+[submodule "libs/CControl"]
+	path = libs/CControl
+	url = git@github.com:DanielMartensson/CControl.git
