@@ -13,8 +13,11 @@
 
 static const TickType_t ATTITUDE_CONTROLLER_WAIT_TIME = pdMS_TO_TICKS(10);
 
-_Noreturn void AttitudeController_Task(void *pvParameters){
-    AttitudeControllerData data;
+static AttitudeControllerData data;
+static MotorValues values;
+static Attitude currentAtt;
+
+void AttitudeController_Init(void *pvParameters) {
     data.kValue = 623.0f;
     data.maxOutput = 1000.0f;
 
@@ -51,32 +54,36 @@ _Noreturn void AttitudeController_Task(void *pvParameters){
     data.yawPID.integral = 0.0f;
     data.yawPID.prevError = 0.0f;
     data.yawPID.config.minOutput = -data.maxOutput;
+}
 
-    MotorValues values;
-    Attitude currentAtt;
-    for(;;){
-
-//        if((float) g_latestJoystickInput.z / 500.0f > 1.0f){
+void AttitudeController_Update(void *pvParameters) {
+    //        if((float) g_latestJoystickInput.z / 500.0f > 1.0f){
 //            data.setpoint.height = 1.0f;
 //        }else{
 //            data.setpoint.height = 0.0f;
 //        }
 
-        data.setpoint.height = (float) g_latestJoystickInput.z / 100.0 ;
-        data.setpoint.roll = (float) g_latestJoystickInput.x / 100.0;
-        data.setpoint.pitch = (float) g_latestJoystickInput.y / 100.0;
-        data.setpoint.yaw = (float) g_latestJoystickInput.r / 100.0;
+    data.setpoint.height = (float) g_latestJoystickInput.z / 100.0;
+    data.setpoint.roll = (float) g_latestJoystickInput.x / 100.0;
+    data.setpoint.pitch = (float) g_latestJoystickInput.y / 100.0;
+    data.setpoint.yaw = (float) g_latestJoystickInput.r / 100.0;
 
-        //printf("%.3f\t%.3f\t%.3f\t%.3f\n", data.setpoint.roll, data.setpoint.pitch, data.setpoint.yaw, data.setpoint.height);
+    //printf("%.3f\t%.3f\t%.3f\t%.3f\n", data.setpoint.roll, data.setpoint.pitch, data.setpoint.yaw, data.setpoint.height);
 
-        imu_get_attitude(&currentAtt.roll, &currentAtt.pitch, &currentAtt.yaw);
-        tof_get_height(&currentAtt.height, currentAtt.roll, currentAtt.pitch);
+    imu_get_attitude(&currentAtt.roll, &currentAtt.pitch, &currentAtt.yaw);
+    tof_get_height(&currentAtt.height, currentAtt.roll, currentAtt.pitch);
 
-        currentAtt.height /= 100.0f;
-        AttitudeController_update(&data, &currentAtt, &values);
+    currentAtt.height /= 100.0f;
+    AttitudeController_update(&data, &currentAtt, &values);
 
-        hal_motors_write(&values);
+    hal_motors_write(&values);
+}
 
+_Noreturn void AttitudeController_Task(void *pvParameters) {
+    AttitudeController_Init(pvParameters);
+
+    for (;;) {
+        AttitudeController_Update(pvParameters);
         vTaskDelay(ATTITUDE_CONTROLLER_WAIT_TIME);
     }
 }

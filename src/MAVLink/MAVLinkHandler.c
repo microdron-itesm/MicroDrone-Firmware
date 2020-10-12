@@ -28,7 +28,8 @@ void handle_param_request_list(){
     mavlink_message_t msg;
     char testBuf[16];
     char numBuf[4];
-    for(int i = 0; i < 6; i++){
+    int i;
+    for(i = 0; i < 6; i++){
         strcpy(testBuf, "test");
         sprintf(numBuf, "%d", i);
         strcat(testBuf, numBuf);

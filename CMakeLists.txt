@@ -25,6 +25,7 @@ file(GLOB_RECURSE MicroDroneFirmware_SRC
         "src/*.h"
         "src/*.c"
         "HAL/PC/*.c"
+        "HAL/SimCommsUpdateTask/*.c"
         "libs/*.c"
         )
 

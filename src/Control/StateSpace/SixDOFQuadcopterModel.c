@@ -18,7 +18,8 @@ static const size_t D_ROWS = 6; //Outputs x Inputs
 static const size_t D_COLS = 4;
 
 static void fillZeros(float * m, size_t rows, size_t cols){
-    for(size_t i = 0; i < rows * cols; i++){
+    size_t i;
+    for(i = 0; i < rows * cols; i++){
         m[i] = 0;
     }
 }

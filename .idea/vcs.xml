@@ -2,8 +2,18 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FreeRTOS" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FreeRTOS/FreeRTOS-Plus/Source/AWS/device-shadow-for-aws-iot-embedded-sdk" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FreeRTOS/FreeRTOS-Plus/Source/Application-Protocols/coreMQTT" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FreeRTOS/FreeRTOS-Plus/Source/coreJSON" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FreeRTOS/FreeRTOS-Plus/Test/CMock" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FreeRTOS/FreeRTOS/Source" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FreeRTOS/FreeRTOS/Test/CMock/CMock" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/googletest-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/build/tests/googletest-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/tests/googletest-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/CControl" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/MAVLinkV2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/UDPLib" vcs="Git" />
   </component>

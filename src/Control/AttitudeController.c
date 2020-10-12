@@ -18,5 +18,5 @@ ssize_t AttitudeController_update(AttitudeControllerData *data, const Attitude *
     values->backLeft = clamp((-pitchRate + rollRate - yawRate + heightRate) * data->kValue, 0, data->maxOutput);
     values->backRight = clamp((-pitchRate - rollRate + yawRate + heightRate) * data->kValue, 0, data->maxOutput);
 
-
+    return 0;
 }

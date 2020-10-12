@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include <math.h>
 
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
+#endif
+
 //From: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 void quatFromEulerRPY(float roll, float pitch, float yaw, mavlink_attitude_quaternion_t *q){
     float cy = cosf(yaw * 0.5f);

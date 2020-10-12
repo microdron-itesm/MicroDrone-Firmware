@@ -9,6 +9,10 @@
 #include <portmacro.h>
 #include <projdefs.h>
 
+void MAVStatus_Init(void *pvParameters);
+
+void MAVStatus_Update(void *pvParameters);
+
 _Noreturn void MAVStatus_Task(void *pvParameters);
 
 #endif //MICRODRONEFIRMWARE_MAVSTATUSTASK_H

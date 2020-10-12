@@ -60,11 +60,11 @@
 
 #ifdef PC
 
-#include "PC/SimCommsUpdateTask/SimCommsUpdateTask.h"
+#include "SimCommsUpdateTask/SimCommsUpdateTask.h"
 
 #include <argp.h>
 #include "PC/PC_HAL_CONFIG.h"
-#include "PC/simulatorComms.h"
+#include "simulatorComms.h"
 
 /*
  * Exercises code that is not otherwise covered by the standard demo/test

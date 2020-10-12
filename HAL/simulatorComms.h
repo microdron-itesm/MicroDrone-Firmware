@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdio.h>
-#include "PC_HAL_CONFIG.h"
+#include "PC/PC_HAL_CONFIG.h"
 
 /**
  * Initialize comms

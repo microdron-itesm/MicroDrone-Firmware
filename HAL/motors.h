@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 typedef struct motor_value_s {
     uint16_t frontLeft, frontRight;
