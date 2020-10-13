@@ -11,12 +11,13 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdio.h>
-#include "PC/PC_HAL_CONFIG.h"
+#include <sys/types.h>
+//#include "PC/PC_HAL_CONFIG.h"
 
 /**
  * Initialize comms
  */
-ssize_t hal_sim_comms_init(udpConnOptions *options);
+ssize_t hal_sim_comms_init(void *options);
 
 /**
  * Send buffer over comms, ret bytes sent

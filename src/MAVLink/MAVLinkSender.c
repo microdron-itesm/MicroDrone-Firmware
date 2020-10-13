@@ -5,6 +5,7 @@
 #include "MAVLinkSender.h"
 #include <FreeRTOS.h>
 #include <queue.h>
+#include "SIM/sim.h"
 
 void sendMAVLinkMessage(mavlink_message_t *msg){
     extern QueueHandle_t g_mavLinkSendQueue;

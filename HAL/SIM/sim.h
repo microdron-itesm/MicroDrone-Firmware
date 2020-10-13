@@ -11,4 +11,6 @@ void sim_pose_get(Pose3D *p);
 
 void sim_pose_set(const Pose3D *p);
 
+void sendSIM_MAVLinkMessage(mavlink_message_t *msg);
+
 #endif //MICRODRONEFIRMWARE_SIM_H

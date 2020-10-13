@@ -16,6 +16,7 @@ static const TickType_t ATTITUDE_CONTROLLER_WAIT_TIME = pdMS_TO_TICKS(10);
 static AttitudeControllerData data;
 static MotorValues values;
 static Attitude currentAtt;
+extern JoystickInput g_latestJoystickInput;
 
 void AttitudeController_Init(void *pvParameters) {
     data.kValue = 623.0f;
