@@ -6,7 +6,7 @@
 #define MICRODRONEFIRMWARE_ATTITUDECONTROLLER_H
 
 #include <stdio.h>
-#include "PID.h"
+#include "Control/PID/PID.h"
 #include "motors.h"
 #include "DataTypes/ControlTypes.h"
 
