@@ -156,6 +156,7 @@ void fromTorqueToAngularVels(const float torques[4], float armLength, float kT, 
     f = torques[1];
     f1 = torques[2];
     f2 = torques[3];
+
     for (ia = 0; ia < 4; ia++) {
         f3 = ((C[ia] * torqueConstant + C[ia + 4] * f) + C[ia + 8] * f1) + C[ia + 12]
                                                                            * f2;

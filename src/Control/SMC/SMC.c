@@ -4,11 +4,12 @@
 #include "SMC.h"
 #include <stdbool.h>
 #include <math.h>
+#include <float.h>
 
 float sgn(float x){ //TODO need to implement correct comparison
-    bool a = x > 0;
-    bool b = x == 0;
-    bool c = x < 0;
+    bool a = x > FLT_EPSILON;
+    bool b = x == FLT_EPSILON;
+    bool c = x < FLT_EPSILON;
     return  (1.0F * (float) a )+( 0.0F * (float) b) + (-1.0F * (float) c);
 }
 
@@ -34,5 +35,7 @@ float SMC_Update(SMCData *data, float setpoint, float setpointVel, float sensor,
 float SMC_UpdateSimplified(SMCData *data, float setpoint, float sensor){
     float setpointVel = (setpoint - data->lastSetpoint);
     float sensorVel = (sensor - data->lastSensor);
+    data->lastSetpoint = setpoint;
+    data->lastSensor = sensor;
     return SMC_Update(data, setpoint, setpointVel, sensor, sensorVel);
 }

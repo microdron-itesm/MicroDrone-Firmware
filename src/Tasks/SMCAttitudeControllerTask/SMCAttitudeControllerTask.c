@@ -16,27 +16,46 @@ static SMCAttitudeControllerData data;
 static MotorValues values;
 static AttitudeWithVel currentAtt;
 
+float lastRoll, lastPitch, lastYaw;
+
 void SMCAttitudeController_Init(void *pvParameters){
+
+    lastRoll = 0.0f;
+    lastPitch = 0.0f;
+    lastYaw = 0.0f;
+
     data.params.mass = 1.5f;
     data.params.armLength = 0.09f;
-    data.params.torqueCoefficient = 8.54858f * powf(10, -6);
+    data.params.torqueCoefficient = 0.0000001f;
     data.params.thrustCoefficient = 0.01f;
     data.params.ixx = 0.03475f;
     data.params.iyy = 0.04589f;
     data.params.izz = 0.0977f;
     data.params.g = 9.81f;
 
-    data.rollSMC.config.beta = 8.0f;
-    data.rollSMC.config.k2 = 1.0f;
-    data.rollSMC.config.lambda = 7.0f;
+    data.rollSMC.config.beta = 3.0f;
+    data.rollSMC.config.k2 = 0.2f;
+    data.rollSMC.config.lambda = 2.0f;
     data.rollSMC.config.mu = 0.05f;
     data.rollSMC.config.k_min = 0.5f;
 
     data.pitchSMC.config = data.rollSMC.config;
     data.yawSMC.config = data.rollSMC.config;
+
     data.heightSMC.config = data.rollSMC.config;
 
     data.yawSMC.config.k_min = 0.1f;
+
+    data.setpoint.roll = 0.0f;
+    data.setpoint.pitch = 0.0f;
+    data.setpoint.yaw = 0.0f;
+    data.setpoint.height = 1.0f;
+
+    data.setpoint.rollVel = 0.0f;
+    data.setpoint.pitchVel = 0.0f;
+    data.setpoint.yawVel = 0.0f;
+
+    data.maxOutput = 757;
 }
 
 void SMCAttitudeController_Update(void *pvParameters){
@@ -45,7 +64,18 @@ void SMCAttitudeController_Update(void *pvParameters){
     tof_get_height(&currentAtt.height, currentAtt.roll, currentAtt.pitch);
 
     currentAtt.height /= 100.0f;
+
+    currentAtt.rollVel = (currentAtt.roll - lastRoll);
+    currentAtt.pitchVel = (currentAtt.pitch - lastPitch);
+    currentAtt.yawVel = (currentAtt.yaw - lastYaw);
+
+    //printf("%f %f %f  \t %f\n", currentAtt.roll, currentAtt.pitch, currentAtt.yaw, currentAtt.height);
+
     SMCAttitudeController_update(&data, &currentAtt, &values);
+
+    lastRoll = currentAtt.roll;
+    lastPitch = currentAtt.pitch;
+    lastYaw = currentAtt.yaw;
 
     hal_motors_write(&values);
 }

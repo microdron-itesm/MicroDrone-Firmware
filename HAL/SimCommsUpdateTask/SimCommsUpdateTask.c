@@ -12,7 +12,7 @@
 #include "SIM/sim.h"
 
 static const TickType_t SimCommsUpdate_waitTime = pdMS_TO_TICKS(1);
-QueueHandle_t g_mavLinkSIMSendQueue;
+extern QueueHandle_t g_mavLinkSIMSendQueue;
 
 static uint8_t buf[MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t)];
 static mavlink_message_t msg;

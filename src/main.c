@@ -20,6 +20,7 @@
 #include "Tasks/IMUUpdateTask.h"
 #include "Tasks/TOFUpdateTask.h"
 #include "Tasks/AttitudeControllerTask/AttitudeControllerTask.h"
+#include "Tasks/SMCAttitudeControllerTask/SMCAttitudeControllerTask.h"
 #include "Tasks/MPCTask/MPCTask.h"
 #include "Tasks/MAVLink/MAVLinkRecvTask.h"
 #include "Tasks/MAVLink/MAVLinkSendTask.h"
@@ -262,7 +263,7 @@ static struct argp argp = {options, parse_opt, args_doc, doc};
 
 #endif
 
-QueueHandle_t g_mavLinkSendQueue;
+QueueHandle_t g_mavLinkSendQueue, g_mavLinkSIMSendQueue;
 
 #ifndef DRONE_UNIT_TEST
 
@@ -298,6 +299,9 @@ int main(int argc, char **argv) {
     udpConnOptions commOptions, simOptions;
     commOptions.txPort = arguments.commsTxPort;
     commOptions.rxPort = arguments.commsRxPort;
+    commOptions.targetIp = (char*) malloc(sizeof(arguments.commsIP));
+    simOptions.targetIp = (char*) malloc(sizeof(arguments.simIP));;
+
     strcpy(commOptions.targetIp, arguments.commsIP);
 
     simOptions.txPort = arguments.simTxPort;
@@ -321,14 +325,17 @@ int main(int argc, char **argv) {
     hal_motors_init();
 
     g_mavLinkSendQueue = xQueueCreate(30, sizeof(mavlink_message_t));
+    g_mavLinkSIMSendQueue = xQueueCreate(30, sizeof(mavlink_message_t));
 
     xTaskCreate(MAVStatus_Task, "HeartbeatTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
     xTaskCreate(IMUUpdate_Task, "IMUTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
     xTaskCreate(MAVLinkRecv_Task, "MAVLinkRecvTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
     xTaskCreate(MAVLinkSend_Task, "MAVLinkSendTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
-    xTaskCreate(AttitudeController_Task, "AttitudeControllerTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
+    xTaskCreate(SMCAttitudeController_Task, "SMCAttitudeControllerTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
+    //xTaskCreate(AttitudeController_Task, "AttitudeControllerTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
     //xTaskCreate(MPC_Task, "MPCTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
     xTaskCreate(TOFUpdate_Task, "TOFUpdateTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
+
 #ifdef PC
     xTaskCreate(SimCommsUpdate_Task, "SimCommsUpdateTask", configMINIMAL_STACK_SIZE, (void *) buf, 1, NULL);
 #endif

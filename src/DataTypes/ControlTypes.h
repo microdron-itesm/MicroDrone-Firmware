@@ -18,6 +18,17 @@ typedef struct Attitude_s{
     float height;
 } Attitude;
 
+
+typedef struct AttitudeWithVel_s{
+    float roll;
+    float rollVel;
+    float pitch;
+    float pitchVel;
+    float yaw;
+    float yawVel;
+    float height;
+} AttitudeWithVel;
+
 typedef struct JoystickInput_s{
     float x;
     float y;
