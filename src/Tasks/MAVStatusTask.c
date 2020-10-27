@@ -27,6 +27,7 @@ void MAVStatus_Init(void *pvParameters){
 }
 
 void MAVStatus_Update(void *pvParameters){
+    return;
     tof_get_sensor(&distanceSensor);
     mavlink_msg_distance_sensor_pack(1, 200, &msg, distanceSensor.time_boot_ms, distanceSensor.min_distance, distanceSensor.max_distance, distanceSensor.current_distance, distanceSensor.type, distanceSensor.id, distanceSensor.orientation, distanceSensor.covariance, distanceSensor.horizontal_fov, distanceSensor.vertical_fov, distanceSensor.quaternion, distanceSensor.signal_quality);
     sendMAVLinkMessage(&msg);
@@ -37,7 +38,10 @@ void MAVStatus_Update(void *pvParameters){
 
     mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC,   MAV_MODE_FLAG_MANUAL_INPUT_ENABLED |  MAV_MODE_MANUAL_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, 0xDEAD, MAV_STATE_ACTIVE);
     sendMAVLinkMessage(&msg);
-
+    
+    mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC,   MAV_MODE_FLAG_MANUAL_INPUT_ENABLED |  MAV_MODE_MANUAL_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, 0xDEAD, MAV_STATE_ACTIVE);
+    sendMAVLinkMessage(&msg);
+    
     mavlink_msg_sys_status_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, presentSystems, enabledSystems, healthySystems, 10, 1000, -1, 0, 0, 0, 0, 0, 0, 0);
     sendMAVLinkMessage(&msg);
 }

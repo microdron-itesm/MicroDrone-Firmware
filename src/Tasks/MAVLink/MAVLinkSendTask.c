@@ -23,7 +23,7 @@ void MAVLinkSend_Init(void *pvParameters){
 }
 
 void MAVLinkSend_Update(void *pvParameters){
-    while(xQueueReceive(g_mavLinkSendQueue, &msg, 0) == pdTRUE) {
+    if(xQueueReceive(g_mavLinkSendQueue, &msg, 0) == pdTRUE) {
         uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
         hal_comms_send_buffer(buf, len);
     }
