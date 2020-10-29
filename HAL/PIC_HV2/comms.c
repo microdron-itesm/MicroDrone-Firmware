@@ -5,6 +5,8 @@
 #include "driver/usart/drv_usart_definitions.h"
 #include "driver/driver_common.h"
 #include <mavlink.h>
+#include <FreeRTOS.h>
+#include <queue.h>
 
 //static bool initialized = false;
 //static DRV_HANDLE usartHandle;
@@ -88,10 +90,11 @@
 
 static bool initialized = false;
 static DRV_HANDLE usartHandle;
+QueueHandle_t g_espSerialByteQueue;
 
 ssize_t hal_comms_init(void *options, size_t size){
     if(initialized) return 0;
-    usartHandle = DRV_USART_Open(DRV_USART_INDEX_0, DRV_IO_INTENT_READWRITE);
+    g_espSerialByteQueue = xQueueCreate(2048, sizeof(uint8_t));
     initialized = true;
     return 0;
 }
@@ -110,16 +113,11 @@ ssize_t hal_comms_send_buffer(uint8_t *buf, size_t len){
 }
 
 ssize_t hal_comms_recv_buffer(mavlink_message_t *msg, mavlink_status_t* status){
-    //memset(msg, 0, sizeof(mavlink_message_t));
-    //memset(status, 0, sizeof(mavlink_status_t));
-       
-    while(!DRV_USART0_ReceiverBufferIsEmpty()){
-        uint8_t byte = DRV_USART0_ReadByte();
+    uint8_t byte = 0;
+    while(xQueueReceive(g_espSerialByteQueue, &byte, 1) == pdTRUE){
         if(mavlink_parse_char(MAVLINK_COMM_0, byte, msg, status)){
             return 1;
         }
-        vTaskDelay(1);
-        //if(i >= MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t)) break;
     }
     
     return -1;
