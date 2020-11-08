@@ -6,17 +6,25 @@
 #include "AttitudeController.h"
 #include "Utils/num.h"
 
-ssize_t AttitudeController_update(AttitudeControllerData *data, const Attitude *state, MotorValues *values){
-    float yawRate = PID_Update(&data->yawPID, data->setpoint.yaw, state->yaw);
-    float rollRate = PID_Update(&data->rollPID, data->setpoint.roll, state->roll);
-    float pitchRate = -PID_Update(&data->pitchPID, data->setpoint.pitch, state->pitch);
-    float heightRate = PID_Update(&data->heightPID, data->setpoint.height, state->height);
+ssize_t AttitudeController_update(AttitudeControllerData *data, const AttitudeWithVel *state, MotorValues *values){
+    float yawOut = PID_Update(&data->yawPID, data->setpoint.yaw, state->yaw);
+    float rollOut = PID_Update(&data->rollPID, data->setpoint.roll, state->roll);
+    float pitchOut = -PID_Update(&data->pitchPID, data->setpoint.pitch, state->pitch);
+    float thrust = PID_Update(&data->heightPID, data->setpoint.height, state->height);
 
-//    printf("%f\t%f\t%f\n", yawRate, data->setpoint.yaw, state->yaw);
-    values->frontLeft = clamp((pitchRate + rollRate + yawRate + heightRate) * data->kValue, 0, data->maxOutput);
-    values->frontRight = clamp((pitchRate - rollRate - yawRate + heightRate) * data->kValue, 0, data->maxOutput);
-    values->backLeft = clamp((-pitchRate + rollRate - yawRate + heightRate) * data->kValue, 0, data->maxOutput);
-    values->backRight = clamp((-pitchRate - rollRate + yawRate + heightRate) * data->kValue, 0, data->maxOutput);
+    float f1 = ((data->params.iyy - data->params.izz) / data->params.ixx) * state->pitchVel * state->yawVel;
+    float f2 = ((data->params.izz - data->params.ixx) / data->params.iyy) * state->rollVel * state->yawVel;
+    float f3 = ((data->params.ixx - data->params.iyy) / data->params.izz) * state->rollVel * state->pitchVel;
 
+    float rollTorque = (data->params.ixx / data->params.armLength) * ( -f1 + rollOut);
+    float pitchTorque = (data->params.iyy / data->params.armLength) * (-f2 + pitchOut);
+    float yawTorque = (data->params.izz / data->params.armLength) * (-f3 + yawOut);
+
+    float feedForward = (data->params.mass * data->params.g) / (data->params.thrustCoefficient * 4);
+
+    values->frontLeft = clamp((pitchTorque + rollTorque + yawTorque + thrust) * data->kValue + feedForward, 0, data->maxOutput);
+    values->frontRight = clamp((pitchTorque - rollTorque - yawTorque + thrust) * data->kValue + feedForward, 0, data->maxOutput);
+    values->backLeft = clamp((-pitchTorque + rollTorque - yawTorque + thrust) * data->kValue + feedForward, 0, data->maxOutput);
+    values->backRight = clamp((-pitchTorque - rollTorque + yawTorque + thrust) * data->kValue + feedForward, 0, data->maxOutput);
     return 0;
 }

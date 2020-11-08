@@ -15,16 +15,22 @@ static const TickType_t ATTITUDE_CONTROLLER_WAIT_TIME = pdMS_TO_TICKS(10);
 
 static AttitudeControllerData data;
 static MotorValues values;
-static Attitude currentAtt;
+static AttitudeWithVel currentAtt;
 extern JoystickInput g_latestJoystickInput;
+float lastRoll, lastPitch, lastYaw;
+
 
 void AttitudeController_Init(void *pvParameters) {
-    data.kValue = 623.0f;
+    lastRoll = 0.0f;
+    lastPitch = 0.0f;
+    lastYaw = 0.0f;
+
+    data.kValue = 635;
     data.maxOutput = 1000.0f;
 
-    data.heightPID.config.p = 2.1f;
+    data.heightPID.config.p = 0.21f;
     data.heightPID.config.i = 0.0f;
-    data.heightPID.config.d = 0.6f;
+    data.heightPID.config.d = 0.30f;
     data.heightPID.config.maxOutput = data.maxOutput;
     data.heightPID.integral = 0.0f;
     data.heightPID.prevError = 0.0f;
@@ -48,35 +54,43 @@ void AttitudeController_Init(void *pvParameters) {
 
     data.pitchPID.config = data.rollPID.config;
 
-    data.yawPID.config.p = 3.0f;
+    data.yawPID.config.p = 2.0f;
     data.yawPID.config.i = 0.0f;
     data.yawPID.config.d = 0.2f;
     data.yawPID.config.maxOutput = data.maxOutput;
     data.yawPID.integral = 0.0f;
     data.yawPID.prevError = 0.0f;
     data.yawPID.config.minOutput = -data.maxOutput;
+
+    data.params.mass = 1.5f;
+    data.params.armLength = 0.09f;
+    data.params.torqueCoefficient = 0.001f;
+    data.params.thrustCoefficient = 5.63f * powf(10.0f, -3.0f);
+    data.params.ixx = 0.03475f;
+    data.params.iyy = 0.04589f;
+    data.params.izz = 0.0977f;
+    data.params.g = 9.81f;
 }
 
 void AttitudeController_Update(void *pvParameters) {
-    //        if((float) g_latestJoystickInput.z / 500.0f > 1.0f){
-//            data.setpoint.height = 1.0f;
-//        }else{
-//            data.setpoint.height = 0.0f;
-//        }
-
-    data.setpoint.height = (float) g_latestJoystickInput.z / 100.0;
-    data.setpoint.roll = (float) g_latestJoystickInput.x / 100.0;
-    data.setpoint.pitch = (float) g_latestJoystickInput.y / 100.0;
-    data.setpoint.yaw = (float) g_latestJoystickInput.r / 100.0;
-
-    //printf("%.3f\t%.3f\t%.3f\t%.3f\n", data.setpoint.roll, data.setpoint.pitch, data.setpoint.yaw, data.setpoint.height);
+    data.setpoint.height = g_latestJoystickInput.z / 100.0f;
+    data.setpoint.roll = g_latestJoystickInput.x / 100.0f;
+    data.setpoint.pitch = g_latestJoystickInput.y / 100.0f;
+    data.setpoint.yaw = g_latestJoystickInput.r / 100.0f;
 
     imu_get_attitude(&currentAtt.roll, &currentAtt.pitch, &currentAtt.yaw);
     tof_get_height(&currentAtt.height, currentAtt.roll, currentAtt.pitch);
 
     currentAtt.height /= 100.0f;
-    AttitudeController_update(&data, &currentAtt, &values);
+    currentAtt.rollVel = (currentAtt.roll - lastRoll);
+    currentAtt.pitchVel = (currentAtt.pitch - lastPitch);
+    currentAtt.yawVel = (currentAtt.yaw - lastYaw);
 
+    lastRoll = currentAtt.roll;
+    lastPitch = currentAtt.pitch;
+    lastYaw = currentAtt.yaw;
+
+    AttitudeController_update(&data, &currentAtt, &values);
     hal_motors_write(&values);
 }
 
