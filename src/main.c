@@ -21,7 +21,6 @@
 #include "Tasks/TOFUpdateTask.h"
 #include "Tasks/AttitudeControllerTask/AttitudeControllerTask.h"
 #include "Tasks/SMCAttitudeControllerTask/SMCAttitudeControllerTask.h"
-#include "Tasks/MPCTask/MPCTask.h"
 #include "Tasks/MAVLink/MAVLinkRecvTask.h"
 #include "Tasks/MAVLink/MAVLinkSendTask.h"
 
