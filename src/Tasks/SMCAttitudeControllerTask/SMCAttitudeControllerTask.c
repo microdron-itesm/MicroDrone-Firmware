@@ -16,7 +16,7 @@ static SMCAttitudeControllerData data;
 static MotorValues values;
 static AttitudeWithVel currentAtt;
 
-float lastRoll, lastPitch, lastYaw;
+static float lastRoll, lastPitch, lastYaw;
 
 void SMCAttitudeController_Init(void *pvParameters){
 
