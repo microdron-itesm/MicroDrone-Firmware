@@ -9,6 +9,10 @@
 #include <portmacro.h>
 #include <projdefs.h>
 
+void IMUUpdate_Init(void *pvParameters);
+
+void IMUUpdate_Update(void *pvParameters);
+
 _Noreturn void IMUUpdate_Task(void *pvParameters);
 
 #endif //MICRODRONEFIRMWARE_IMUUPDATETASK_H

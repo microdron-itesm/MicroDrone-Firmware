@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
+#include <mavlink.h>
 
 /**
  * Initialize comms
@@ -24,6 +25,6 @@ ssize_t hal_comms_send_buffer(uint8_t *buf, size_t len);
  * @param buf_len
  * @return
  */
-ssize_t hal_comms_recv_buffer(uint8_t *buf, size_t buf_len);
+ssize_t hal_comms_recv_buffer(mavlink_message_t *msg, mavlink_status_t* status);
 
 ssize_t hal_comms_close();

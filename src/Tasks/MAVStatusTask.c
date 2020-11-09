@@ -34,10 +34,14 @@ void MAVStatus_Update(void *pvParameters){
     imu_get_attitude(&roll, &pitch, &yaw);
     mavlink_msg_attitude_pack(1, 200, &msg, 1, roll ,pitch,yaw, 0, 0, 0);
     sendMAVLinkMessage(&msg);
+    
+    if(roll == 0){
+        roll++;
+    };
 
     mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC,   MAV_MODE_FLAG_MANUAL_INPUT_ENABLED |  MAV_MODE_MANUAL_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, 0xDEAD, MAV_STATE_ACTIVE);
     sendMAVLinkMessage(&msg);
-
+    
     mavlink_msg_sys_status_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, presentSystems, enabledSystems, healthySystems, 10, 1000, -1, 0, 0, 0, 0, 0, 0, 0);
     sendMAVLinkMessage(&msg);
 }

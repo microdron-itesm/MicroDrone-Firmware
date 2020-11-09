@@ -10,29 +10,24 @@
 #include "MAVLink/MAVLinkHandler.h"
 
 const TickType_t MAVLinkRecvTask_waitTime = pdMS_TO_TICKS(10);
-static size_t bufLen;
 static uint8_t buf[MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t)];
+static mavlink_message_t msg;
+static mavlink_status_t status;
+static ssize_t recvSize;
 
 void MAVLinkRecv_Init(void *pvParameters) {
-    bufLen = sizeof(buf);
-    memset(buf, 0, bufLen);
+    memset(buf, 0, sizeof(buf));
+    memset(&msg, 0, sizeof(msg));
+    memset(&status, 0, sizeof(status));
 }
 
 void MAVLinkRecv_Update(void *pvParameters) {
-    int recvSize = hal_comms_recv_buffer(buf, bufLen);
-    while (recvSize > 0) {
-        mavlink_message_t msg;
-        mavlink_status_t status;
-
-        //printf("Bytes Received: %d\nDatagram: ", (int) recvSize);
-        int i;
-        for (i = 0; i < recvSize; ++i) {
-            if (mavlink_parse_char(MAVLINK_COMM_0, buf[i], &msg, &status)) {
-                // Packet received
-                handle_MAVLink_message(&msg);
-            }
-        }
-        recvSize = hal_comms_recv_buffer(buf, bufLen);
+    ssize_t recvSize = hal_comms_recv_buffer(&msg, &status);
+    if(recvSize > 0){
+        //Got msg
+        handle_MAVLink_message(&msg);
+        memset(&msg, 0, sizeof(mavlink_message_t));
+        memset(&status, 0, sizeof(mavlink_status_t));
     }
 }
 
