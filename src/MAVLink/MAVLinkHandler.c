@@ -32,6 +32,9 @@ void handle_MAVLink_message(mavlink_message_t *msg){
             if(hb.system_status == MAV_STATE_EMERGENCY){
                 //Panik
                 hal_motors_enable(false);
+            } else {
+                //Exit from panik
+                hal_motors_enable(true);
             }
             break;
     }
