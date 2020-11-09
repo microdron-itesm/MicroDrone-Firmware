@@ -4,6 +4,7 @@
 
 static MotorValues currentSetpoint;
 static bool initialized = false;
+static bool enabled = true;
 
 ssize_t hal_motors_init(){
     if(initialized) return 0;
@@ -26,6 +27,14 @@ ssize_t hal_motors_init(){
 }
 
 ssize_t hal_motors_write(const MotorValues * value){
+    if(!enabled){
+        DRV_OC0_PulseWidthSet(0);
+        DRV_OC1_PulseWidthSet(0);
+        DRV_OC2_PulseWidthSet(0);
+        DRV_OC3_PulseWidthSet(0);
+        return -1;
+    }
+
     DRV_OC0_PulseWidthSet(value->frontLeft);
     DRV_OC1_PulseWidthSet(value->frontRight);
     DRV_OC2_PulseWidthSet(value->backLeft);
@@ -45,4 +54,8 @@ ssize_t hal_motors_get_velocity(MotorVelocities *value){
 
 ssize_t hal_motors_close(){
     return 0;
+}
+
+void hal_motors_enable(bool state){
+    enabled = state;
 }
