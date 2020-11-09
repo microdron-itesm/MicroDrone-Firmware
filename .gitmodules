@@ -4,12 +4,6 @@
 [submodule "libs/UDPLib"]
 	path = libs/UDPLib
 	url = https://github.com/microdron-itesm/UDPLib.git
-[submodule "libs/EmbeddedLapack"]
-	path = libs/EmbeddedLapack
-	url = https://github.com/DanielMartensson/EmbeddedLapack.git
-[submodule "libs/CControl"]
-	path = libs/CControl
-	url = git@github.com:DanielMartensson/CControl.git
 [submodule "FreeRTOS"]
 	path = FreeRTOS
 	url = git@github.com:FreeRTOS/FreeRTOS.git
