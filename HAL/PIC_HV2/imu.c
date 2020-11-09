@@ -13,6 +13,7 @@ static mavlink_heartbeat_t hb;
 static bool initialized = false;
 static mavlink_message_t msg;
 static mavlink_status_t status;
+static mavlink_attitude_quaternion_t newMeas;
 
 void imu_comms_init(){
     if(initialized) return;
@@ -34,7 +35,8 @@ bool imu_comms_receive(){
                     break;
                     
                 case MAVLINK_MSG_ID_ATTITUDE_QUATERNION:
-                    mavlink_msg_attitude_quaternion_decode(&msg, &meas);
+                    mavlink_msg_attitude_quaternion_decode(&msg, &newMeas);
+                    if(newMeas.q1 && newMeas.q2 && newMeas.q3 && newMeas.q4) memcpy(&meas, &newMeas, sizeof(meas));
                     break;
                     
                 case MAVLINK_MSG_ID_RAW_IMU:
