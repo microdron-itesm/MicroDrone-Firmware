@@ -9,19 +9,20 @@
 #include "Control/PID/PID.h"
 #include "motors.h"
 #include "DataTypes/ControlTypes.h"
+#include "DataTypes/DroneParams.h"
 
 typedef struct AttitudeControllerData_s{
     PIDData rollPID, pitchPID, yawPID, heightPID;
     float kValue;
     float maxOutput;
-
-    Attitude setpoint;
+    DroneParams params;
+    AttitudeWithVel setpoint;
 } AttitudeControllerData;
 
 /**
  * Simple attitude controller which uses PIDs to control roll, pitch and yaw
  */
 
-ssize_t AttitudeController_update(AttitudeControllerData *data, const Attitude *imu, MotorValues *values);
+ssize_t AttitudeController_update(AttitudeControllerData *data, const AttitudeWithVel *imu, MotorValues *values);
 
 #endif //MICRODRONEFIRMWARE_ATTITUDECONTROLLER_H

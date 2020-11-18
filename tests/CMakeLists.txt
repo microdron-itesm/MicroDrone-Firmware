@@ -41,7 +41,7 @@ list (APPEND MicroDroneFirmwareTests_SRC ${MicroDroneFirmware_SRC})
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(MicroDroneFirmwareTests ${MicroDroneFirmwareTests_SRC})
 target_compile_definitions(MicroDroneFirmwareTests PRIVATE DRONE_UNIT_TEST)
-target_link_libraries(MicroDroneFirmwareTests gtest_main FreeRTOS_Kernel)
+target_link_libraries(MicroDroneFirmwareTests gtest_main m pcap pthread)
 #add_test(NAME example_test COMMAND example)
 
 

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <sys/types.h>
+#include <stdbool.h>
 
 typedef struct motor_value_s {
     uint16_t frontLeft, frontRight;
@@ -20,6 +21,8 @@ typedef struct motor_velocities_s {
 } MotorVelocities;
 
 ssize_t hal_motors_init();
+
+void hal_motors_enable(bool state);
 
 ssize_t hal_motors_write(const MotorValues * value);
 

@@ -11,6 +11,7 @@
 static MotorValues currentSetpoint;
 static size_t bufLen = MAVLINK_MAX_PACKET_LEN + sizeof(uint64_t);
 static uint8_t *messageBuffer;
+static bool enabled;
 
 ssize_t hal_motors_init(){
     messageBuffer = malloc(bufLen);
@@ -19,6 +20,8 @@ ssize_t hal_motors_init(){
 }
 
 ssize_t hal_motors_write(const MotorValues * value){
+    if(enabled) return -1;
+
     currentSetpoint = *value;
 
     mavlink_message_t msg;
@@ -49,4 +52,8 @@ ssize_t hal_motors_get_velocity(MotorVelocities *value){
 
 ssize_t hal_motors_close(){
     return 0;
+}
+
+void hal_motors_enable(bool state){
+    enabled = state;
 }

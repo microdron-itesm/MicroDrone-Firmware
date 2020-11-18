@@ -26,8 +26,6 @@ ssize_t SMCAttitudeController_update(SMCAttitudeControllerData *data, const Atti
     float pitchTorque = (data->params.iyy / data->params.armLength) * (pitchSetpointAccel - data->pitchSMC.config.lambda * (state->pitchVel - data->setpoint.pitchVel) - f2 + pitchOut);
     float yawTorque = (data->params.izz / data->params.armLength) * (yawSetpointAccel - data->yawSMC.config.lambda * (state->yawVel - data->setpoint.yawVel) - f3 + yawOut);
 
-    printf("%f \t %f\n", rollOut, rollTorque);
-
 //   float torques[4] = {-rollTorque, pitchTorque, yawTorque, heightOut};
     float torques[4] = {-0, pitchOut, 0, 18000};
 

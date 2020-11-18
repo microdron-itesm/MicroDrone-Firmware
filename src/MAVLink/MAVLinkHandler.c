@@ -5,9 +5,9 @@
 #include "MAVLinkHandler.h"
 #include "MAVLinkSender.h"
 #include <stdlib.h>
+#include "motors.h"
 
 JoystickInput g_latestJoystickInput;
-static unsigned int heartbeatCount = 0;
 static mavlink_message_t msg_tmp;
 
 void handle_MAVLink_message(mavlink_message_t *msg){
@@ -23,9 +23,19 @@ void handle_MAVLink_message(mavlink_message_t *msg){
             handle_message_manual_control(msg);
             break;
         case MAVLINK_MSG_ID_HEARTBEAT:
-            heartbeatCount++;
             mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg_tmp, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC,   MAV_MODE_FLAG_MANUAL_INPUT_ENABLED |  MAV_MODE_MANUAL_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, 0xDEAD, MAV_STATE_ACTIVE);
             sendMAVLinkMessage(&msg_tmp);
+
+            mavlink_heartbeat_t hb;
+            mavlink_msg_heartbeat_decode(msg, &hb);
+
+            if(hb.system_status == MAV_STATE_EMERGENCY){
+                //Panik
+                hal_motors_enable(false);
+            } else {
+                //Exit from panik
+                hal_motors_enable(true);
+            }
             break;
     }
 }

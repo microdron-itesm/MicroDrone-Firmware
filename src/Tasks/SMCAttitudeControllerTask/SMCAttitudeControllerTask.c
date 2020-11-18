@@ -16,7 +16,7 @@ static SMCAttitudeControllerData data;
 static MotorValues values;
 static AttitudeWithVel currentAtt;
 
-float lastRoll, lastPitch, lastYaw;
+static float lastRoll, lastPitch, lastYaw;
 
 void SMCAttitudeController_Init(void *pvParameters){
 
@@ -69,7 +69,6 @@ void SMCAttitudeController_Update(void *pvParameters){
     currentAtt.pitchVel = (currentAtt.pitch - lastPitch);
     currentAtt.yawVel = (currentAtt.yaw - lastYaw);
 
-    //printf("%f %f %f  \t %f\n", currentAtt.roll, currentAtt.pitch, currentAtt.yaw, currentAtt.height);
 
     SMCAttitudeController_update(&data, &currentAtt, &values);
 

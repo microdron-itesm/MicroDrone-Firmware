@@ -10,6 +10,8 @@
 #include <mavlink.h>
 #include "MAVLink/MAVLinkSender.h"
 
+//#define SEND_HB_BY_DEFAULT
+
 const TickType_t StatusTask_waitTime = pdMS_TO_TICKS(100);
 
 static mavlink_message_t msg;
@@ -35,9 +37,10 @@ void MAVStatus_Update(void *pvParameters){
     mavlink_msg_attitude_pack(1, 200, &msg, 1, roll ,pitch,yaw, 0, 0, 0);
     sendMAVLinkMessage(&msg);
 
-    //mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC,   MAV_MODE_FLAG_MANUAL_INPUT_ENABLED |  MAV_MODE_MANUAL_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, 0xDEAD, MAV_STATE_ACTIVE);
-    //sendMAVLinkMessage(&msg);
-    
+#ifdef SEND_HB_BY_DEFAULT
+    mavlink_msg_heartbeat_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, MAV_TYPE_QUADROTOR, MAV_AUTOPILOT_GENERIC,   MAV_MODE_FLAG_MANUAL_INPUT_ENABLED |  MAV_MODE_MANUAL_ARMED | MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, 0xDEAD, MAV_STATE_ACTIVE);
+    sendMAVLinkMessage(&msg);
+#endif
     mavlink_msg_sys_status_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, presentSystems, enabledSystems, healthySystems, 10, 1000, -1, 0, 0, 0, 0, 0, 0, 0);
     sendMAVLinkMessage(&msg);
 }
