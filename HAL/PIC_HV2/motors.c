@@ -27,10 +27,12 @@ ssize_t hal_motors_init(){
 }
 
 ssize_t hal_motors_write(const MotorValues * value){
-    DRV_OC0_PulseWidthSet(100);
-    DRV_OC1_PulseWidthSet(100);
-    DRV_OC2_PulseWidthSet(100);
-    DRV_OC3_PulseWidthSet(100);
+    if(value == NULL) return -1;
+    
+    DRV_OC0_PulseWidthSet(value->frontLeft);
+    DRV_OC1_PulseWidthSet(value->frontRight);
+    DRV_OC2_PulseWidthSet(value->backLeft);
+    DRV_OC3_PulseWidthSet(value->backRight);
     
     return 0;
 }

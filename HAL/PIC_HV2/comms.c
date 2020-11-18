@@ -102,23 +102,23 @@ ssize_t hal_comms_init(void *options, size_t size){
 ssize_t hal_comms_send_buffer(uint8_t *buf, size_t len){
     size_t i = 0;
     
-//    while(i < len){
-//        if(!(DRV_USART_TRANSFER_STATUS_TRANSMIT_FULL & DRV_USART0_TransferStatus())){
-//                DRV_USART0_WriteByte(buf[i]);
-//                i++;
-//        }
-//    }
+    while(i < len){
+        if(!(DRV_USART_TRANSFER_STATUS_TRANSMIT_FULL & DRV_USART0_TransferStatus())){
+                DRV_USART0_WriteByte(buf[i]);
+                i++;
+        }
+    }
      
     return len;
 }
 
 ssize_t hal_comms_recv_buffer(mavlink_message_t *msg, mavlink_status_t* status){
     uint8_t byte = 0;
-//    while(xQueueReceive(g_espSerialByteQueue, &byte, 1) == pdTRUE){
-//        if(mavlink_parse_char(MAVLINK_COMM_0, byte, msg, status)){
-//            return 1;
-//        }
-//    }
+    while(xQueueReceive(g_espSerialByteQueue, &byte, 1) == pdTRUE){
+        if(mavlink_parse_char(MAVLINK_COMM_0, byte, msg, status)){
+            return 1;
+        }
+    }
     
     return -1;
 }
