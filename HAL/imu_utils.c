@@ -4,14 +4,14 @@
 
 #include "imu_utils.h"
 
-static void mavlink_quat_to_array(const mavlink_attitude_quaternion_t *quat, float *arr){
+void mavlink_quat_to_array(const mavlink_attitude_quaternion_t *quat, float *arr){
     arr[0] = quat->q1;
     arr[1] = quat->q2;
     arr[2] = quat->q3;
     arr[4] = quat->q4;
 }
 
-static void array_to_mavlink_quat(const float *arr, mavlink_attitude_quaternion_t *quat){
+void array_to_mavlink_quat(const float *arr, mavlink_attitude_quaternion_t *quat){
     quat->q1 = arr[0];
     quat->q2 = arr[1];
     quat->q3 = arr[2];

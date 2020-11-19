@@ -70,6 +70,8 @@ void AttitudeController_Init(void *pvParameters) {
     data.params.iyy = 0.04589f;
     data.params.izz = 0.0977f;
     data.params.g = 9.81f;
+
+    imu_set_zero();
 }
 
 void AttitudeController_Update(void *pvParameters) {

@@ -5,10 +5,13 @@
 #include <mavlink.h>
 #include <FreeRTOS.h>
 #include <queue.h>
+#include "imu_utils.h"
 
 QueueHandle_t g_imuSerialByteQueue;
 
 static mavlink_attitude_quaternion_t meas;
+static mavlink_attitude_quaternion_t zeroQuat;
+
 static mavlink_heartbeat_t hb;
 static bool initialized = false;
 static mavlink_message_t msg;
@@ -20,6 +23,11 @@ void imu_comms_init(){
     g_imuSerialByteQueue = xQueueCreate(2048, sizeof(uint8_t));
     memset(&msg, 0, sizeof(msg));
     memset(&status, 0, sizeof(status));
+
+    float tempQuat[4];
+    mavlink_euler_to_quaternion(0,0,0, tempQuat);
+    array_to_mavlink_quat(tempQuat, &zeroQuat);
+
     initialized = true;
 }
 
@@ -36,7 +44,9 @@ bool imu_comms_receive(){
                     
                 case MAVLINK_MSG_ID_ATTITUDE_QUATERNION:
                     mavlink_msg_attitude_quaternion_decode(&msg, &newMeas);
-                    if(newMeas.q1 && newMeas.q2 && newMeas.q3 && newMeas.q4) memcpy(&meas, &newMeas, sizeof(meas));
+                    if(newMeas.q1 && newMeas.q2 && newMeas.q3 && newMeas.q4) {
+                        transform_imu_meas(&newMeas, &zeroQuat, &meas);
+                    }
                     break;
                     
                 case MAVLINK_MSG_ID_RAW_IMU:
@@ -75,4 +85,8 @@ void imu_get_acceleration(float *ax, float *ay, float *az){
 
 void imu_comms_close(){
     ;
+}
+
+void imu_set_zero(){
+    zeroQuat = meas;
 }

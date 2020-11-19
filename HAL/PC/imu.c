@@ -31,3 +31,8 @@ void imu_get_acceleration(float *ax, float *ay, float *az){
 
 void imu_comms_close(){
 }
+
+//TODO
+void imu_set_zero(){
+    ;
+}

@@ -19,6 +19,8 @@ void imu_get_attitude(float *roll, float *pitch, float *yaw);
 
 void imu_get_acceleration(float *ax, float *ay, float *az);
 
+void imu_set_zero();
+
 void imu_comms_close();
 
 #endif //MICRODRONEFIRMWARE_IMU_H
