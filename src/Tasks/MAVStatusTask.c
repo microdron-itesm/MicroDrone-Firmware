@@ -10,7 +10,7 @@
 #include <mavlink.h>
 #include "MAVLink/MAVLinkSender.h"
 
-//#define SEND_HB_BY_DEFAULT
+#define SEND_HB_BY_DEFAULT
 
 const TickType_t StatusTask_waitTime = pdMS_TO_TICKS(100);
 
