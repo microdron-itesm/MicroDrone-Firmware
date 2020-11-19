@@ -25,8 +25,8 @@ void AttitudeController_Init(void *pvParameters) {
     lastPitch = 0.0f;
     lastYaw = 0.0f;
 
-    data.kValue = 635;
-    data.maxOutput = 1000.0f;
+    data.kValue = 2620;
+    data.maxOutput = 2620.0f;
 
     data.heightPID.config.p = 0.21f;
     data.heightPID.config.i = 0.0f;
@@ -36,9 +36,9 @@ void AttitudeController_Init(void *pvParameters) {
     data.heightPID.prevError = 0.0f;
     data.heightPID.config.minOutput = -data.maxOutput;
 
-    data.rollPID.config.p = 0.6f;
+    data.rollPID.config.p = 1.6f;
     data.rollPID.config.i = 0.0f;
-    data.rollPID.config.d = 0.1f;
+    data.rollPID.config.d = 0.0f;
     data.rollPID.config.maxOutput = data.maxOutput;
     data.rollPID.integral = 0.0f;
     data.rollPID.prevError = 0.0f;
@@ -62,23 +62,23 @@ void AttitudeController_Init(void *pvParameters) {
     data.yawPID.prevError = 0.0f;
     data.yawPID.config.minOutput = -data.maxOutput;
 
-    data.params.mass = 1.5f;
-    data.params.armLength = 0.09f;
-    data.params.torqueCoefficient = 0.001f;
-    data.params.thrustCoefficient = 5.63f * powf(10.0f, -3.0f);
-    data.params.ixx = 0.03475f;
-    data.params.iyy = 0.04589f;
-    data.params.izz = 0.0977f;
-    data.params.g = 9.81f;
+    data.params.mass = (80.0) / 1000.0f;
+    data.params.armLength = 65.0f / (1000.0f);
+    data.params.torqueCoefficient = 7.8263E-4;
+    data.params.thrustCoefficient = 0.0005;
+    data.params.ixx = 6.86E-5f;
+    data.params.iyy = 9.2E-5;
+    data.params.izz = 1.366E-4;
+    data.params.g = 9.807f;
 
     imu_set_zero();
 }
 
 void AttitudeController_Update(void *pvParameters) {
     data.setpoint.height = g_latestJoystickInput.z / 100.0f;
-    data.setpoint.roll = g_latestJoystickInput.x / 100.0f;
-    data.setpoint.pitch = g_latestJoystickInput.y / 100.0f;
-    data.setpoint.yaw = g_latestJoystickInput.r / 100.0f;
+    //data.setpoint.roll = g_latestJoystickInput.x / 100.0f;
+    //data.setpoint.pitch = g_latestJoystickInput.y / 100.0f;
+    //data.setpoint.yaw = g_latestJoystickInput.r / 100.0f;
 
     imu_get_attitude(&currentAtt.roll, &currentAtt.pitch, &currentAtt.yaw);
     tof_get_height(&currentAtt.height, currentAtt.roll, currentAtt.pitch);
