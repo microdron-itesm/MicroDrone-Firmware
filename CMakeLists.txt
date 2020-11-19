@@ -28,6 +28,7 @@ file(GLOB_RECURSE MicroDroneFirmware_SRC
         "HAL/SIM/*.c"
         "HAL/SimCommsUpdateTask/*.c"
         "libs/*.c"
+        "HAL/imu_utils.c"
         )
 
 file(GLOB FreeRTOS_SRC
