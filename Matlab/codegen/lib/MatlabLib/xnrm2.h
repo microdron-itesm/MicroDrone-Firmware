@@ -2,17 +2,16 @@
  * Academic License - for use in teaching, academic research, and meeting
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
+ * File: xnrm2.h
  *
- * fromTorqueToAngularVels_terminate.h
- *
- * Code generation for function 'fromTorqueToAngularVels_terminate'
- *
+ * MATLAB Coder version            : 5.1
+ * C/C++ source code generated on  : 19-Nov-2020 17:37:02
  */
 
-#ifndef FROMTORQUETOANGULARVELS_TERMINATE_H
-#define FROMTORQUETOANGULARVELS_TERMINATE_H
+#ifndef XNRM2_H
+#define XNRM2_H
 
-/* Include files */
+/* Include Files */
 #include "rtwtypes.h"
 #include <stddef.h>
 #include <stdlib.h>
@@ -23,7 +22,8 @@ extern "C" {
 #endif
 
   /* Function Declarations */
-  extern void fromTorqueToAngularVels_terminate(void);
+  float b_xnrm2(int n, const float x[4], int ix0);
+  float xnrm2(int n, const float x[16], int ix0);
 
 #ifdef __cplusplus
 
@@ -31,4 +31,8 @@ extern "C" {
 #endif
 #endif
 
-/* End of code generation (fromTorqueToAngularVels_terminate.h) */
+/*
+ * File trailer for xnrm2.h
+ *
+ * [EOF]
+ */
