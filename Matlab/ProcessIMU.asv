@@ -1,0 +1,3 @@
+function out = ProcessIMU(data, zero)
+    out = quatmultiply(conj(zero), da);
+end

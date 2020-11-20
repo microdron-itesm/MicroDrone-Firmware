@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2018b">
-  <configuration build-checksum="2437051710" file="/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab/ProcessIMU.prj" location="/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab" name="ProcessIMU" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="3121302242" file="/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab/ProcessIMU.prj" location="/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab" name="ProcessIMU" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -227,7 +227,7 @@
       <param.CustomLibrary />
       <param.PostCodeGenCommand />
       <param.TargetLangStandard>C89/C90 (ANSI)</param.TargetLangStandard>
-      <param.CodeReplacementLibrary>None</param.CodeReplacementLibrary>
+      <param.CodeReplacementLibrary />
       <param.DeprecatedCRLFlag>false</param.DeprecatedCRLFlag>
       <param.SameHardware>true</param.SameHardware>
       <param.Toolchain>GNU gcc/g++ | gmake (64-bit Linux)</param.Toolchain>
@@ -841,8 +841,8 @@
     <param.objective>option.objective.c</param.objective>
     <param.WorkflowStep>generateCode</param.WorkflowStep>
     <param.TestSnippets>
-      <item>test</item>
       <item>ProcessIMU([0.7044 0.0616 0.2988 0.6409], [0.7044 0.0616 0.2988 0.4609])</item>
+      <item>test</item>
     </param.TestSnippets>
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
@@ -870,12 +870,12 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen/lib/MatlabLib</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>2437051710</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>325292347</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen/mex/ProcessIMU_mex</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>2868138903</var.cfi.preBuildChecksum>
+    <var.cfi.preBuildChecksum>3427997835</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>ProcessIMU([0.7044 0.0616 0.2988 0.6409], [0.7044 0.0616 0.2988 0.4609])</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab/ProcessIMU.m&lt;/file&gt;&lt;file&gt;/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab/fromTorqueToAngularVels.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;3079115348&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab/ProcessIMU.m&lt;/file&gt;&lt;file&gt;/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab/fromTorqueToAngularVels.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;49390613&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab/ProcessIMU.m&lt;/file&gt;&lt;file&gt;/home/abiel/Documents/DronTec/MicroDrone-Firmware/Matlab/fromTorqueToAngularVels.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
@@ -929,8 +929,12 @@
     <param.FeatureFlags />
     <param.FixedPointMode>option.FixedPointMode.Singles</param.FixedPointMode>
     <param.AutoScaleLoopIndexVariables>false</param.AutoScaleLoopIndexVariables>
-    <param.ComputedFixedPointData />
-    <param.UserFixedPointData />
+    <param.ComputedFixedPointData>
+      <ComputedEntities />
+    </param.ComputedFixedPointData>
+    <param.UserFixedPointData>
+      <UserEntities />
+    </param.UserFixedPointData>
     <param.DefaultWordLength>16</param.DefaultWordLength>
     <param.DefaultFractionLength>4</param.DefaultFractionLength>
     <param.FixedPointSafetyMargin>0</param.FixedPointSafetyMargin>
@@ -949,7 +953,9 @@
     <param.InstrumentedMexFile />
     <param.FixedPointValidationChecksum />
     <param.FixedPointSourceCodeChecksum />
-    <param.FixedPointFunctionReplacements />
+    <param.FixedPointFunctionReplacements>
+      <FunctionReplacements />
+    </param.FixedPointFunctionReplacements>
     <param.OptimizeWholeNumbers>true</param.OptimizeWholeNumbers>
     <param.ContainerTypes>false</param.ContainerTypes>
     <param.GeneratedFixedPointFileSuffix>_fixpt</param.GeneratedFixedPointFileSuffix>
@@ -1041,8 +1047,6 @@
       <param.UsePreconditions />
       <param.FeatureFlags />
       <param.AutoScaleLoopIndexVariables />
-      <param.ComputedFixedPointData />
-      <param.UserFixedPointData />
       <param.DefaultWordLength />
       <param.DefaultFractionLength />
       <param.FixedPointSafetyMargin />
@@ -1061,7 +1065,6 @@
       <param.InstrumentedMexFile />
       <param.FixedPointValidationChecksum />
       <param.FixedPointSourceCodeChecksum />
-      <param.FixedPointFunctionReplacements />
       <param.OptimizeWholeNumbers />
       <param.ContainerTypes />
       <param.GeneratedFixedPointFileSuffix />

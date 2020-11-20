@@ -1,3 +1,3 @@
 function out = ProcessIMU(data, zero)
-    out = quatmultiply(data, quatinv(zero));
+    out = quatnormalize(quatmultiply(quatinv(zero), data));
 end
