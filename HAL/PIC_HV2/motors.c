@@ -45,10 +45,12 @@ ssize_t hal_motors_write(const MotorValues * value){
     uint32_t backLeft = value->backLeft * radsPerSecondToOutFactor;
     uint32_t backRight = value->backRight * radsPerSecondToOutFactor;
 
-    DRV_OC0_PulseWidthSet(frontLeft);
-    DRV_OC1_PulseWidthSet(frontRight);
-    DRV_OC2_PulseWidthSet(backLeft);
-    DRV_OC3_PulseWidthSet(backRight);
+    DRV_OC0_PulseWidthSet(backLeft); //backLeft
+    DRV_OC1_PulseWidthSet(frontRight); //frontRight
+    DRV_OC2_PulseWidthSet(frontLeft); //frontLeft
+    DRV_OC3_PulseWidthSet(backRight); //backRight
+    
+    memcpy(&currentSetpoint, value, sizeof(currentSetpoint));
     return 0;
 }
 

@@ -45,6 +45,7 @@ bool imu_comms_receive(){
                 case MAVLINK_MSG_ID_ATTITUDE_QUATERNION:
                     mavlink_msg_attitude_quaternion_decode(&msg, &newMeas);
                     if(newMeas.q1 && newMeas.q2 && newMeas.q3 && newMeas.q4) {
+                        //memcpy(&meas, &newMeas, sizeof(meas));
                         transform_imu_meas(&newMeas, &zeroQuat, &meas);
                     }
                     break;
@@ -76,7 +77,9 @@ void imu_get_attitude_quaternion(mavlink_attitude_quaternion_t *q){
 }
 
 void imu_get_attitude(float *roll, float *pitch, float *yaw){
-    quatGetEulerRPY(&meas, roll, pitch, yaw);
+    float quat[4];
+    mavlink_quat_to_array(&meas, quat);
+    mavlink_quaternion_to_euler(quat, roll, pitch, yaw);
 }
 
 void imu_get_acceleration(float *ax, float *ay, float *az){

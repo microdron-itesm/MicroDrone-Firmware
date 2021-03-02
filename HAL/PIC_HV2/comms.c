@@ -108,6 +108,15 @@ ssize_t hal_comms_send_buffer(uint8_t *buf, size_t len){
                 i++;
         }
     }
+    
+    i = 0;
+    
+    while(i < len){
+        if(!(DRV_USART_TRANSFER_STATUS_TRANSMIT_FULL & DRV_USART1_TransferStatus())){
+                DRV_USART1_WriteByte(buf[i]);
+                i++;
+        }
+    }
      
     return len;
 }

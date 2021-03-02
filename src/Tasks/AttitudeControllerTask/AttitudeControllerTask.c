@@ -36,9 +36,9 @@ void AttitudeController_Init(void *pvParameters) {
     data.heightPID.prevError = 0.0f;
     data.heightPID.config.minOutput = -data.maxOutput;
 
-    data.rollPID.config.p = 1.6f;
-    data.rollPID.config.i = 0.0f;
-    data.rollPID.config.d = 0.0f;
+    data.rollPID.config.p = 90.0f;
+    data.rollPID.config.i = 0.000f;
+    data.rollPID.config.d = 46.0;
     data.rollPID.config.maxOutput = data.maxOutput;
     data.rollPID.integral = 0.0f;
     data.rollPID.prevError = 0.0f;
@@ -54,9 +54,9 @@ void AttitudeController_Init(void *pvParameters) {
 
     data.pitchPID.config = data.rollPID.config;
 
-    data.yawPID.config.p = 2.0f;
+    data.yawPID.config.p = 32.0f;
     data.yawPID.config.i = 0.0f;
-    data.yawPID.config.d = 0.2f;
+    data.yawPID.config.d = 8.2f;
     data.yawPID.config.maxOutput = data.maxOutput;
     data.yawPID.integral = 0.0f;
     data.yawPID.prevError = 0.0f;
@@ -65,7 +65,7 @@ void AttitudeController_Init(void *pvParameters) {
     data.params.mass = (80.0) / 1000.0f;
     data.params.armLength = 65.0f / (1000.0f);
     data.params.torqueCoefficient = 7.8263E-4;
-    data.params.thrustCoefficient = 0.0005;
+    data.params.thrustCoefficient = 0.00023;
     data.params.ixx = 6.86E-5f;
     data.params.iyy = 9.2E-5;
     data.params.izz = 1.366E-4;
@@ -79,6 +79,9 @@ void AttitudeController_Update(void *pvParameters) {
     //data.setpoint.roll = g_latestJoystickInput.x / 100.0f;
     //data.setpoint.pitch = g_latestJoystickInput.y / 100.0f;
     //data.setpoint.yaw = g_latestJoystickInput.r / 100.0f;
+    data.setpoint.roll = 0;
+    data.setpoint.pitch = 0;
+    data.setpoint.yaw = 0;
 
     imu_get_attitude(&currentAtt.roll, &currentAtt.pitch, &currentAtt.yaw);
     tof_get_height(&currentAtt.height, currentAtt.roll, currentAtt.pitch);

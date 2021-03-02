@@ -9,6 +9,7 @@
 #include "tof.h"
 #include <mavlink.h>
 #include "MAVLink/MAVLinkSender.h"
+#include "motors.h"
 
 #define SEND_HB_BY_DEFAULT
 
@@ -42,6 +43,12 @@ void MAVStatus_Update(void *pvParameters){
     sendMAVLinkMessage(&msg);
 #endif
     mavlink_msg_sys_status_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, presentSystems, enabledSystems, healthySystems, 10, 1000, -1, 0, 0, 0, 0, 0, 0, 0);
+    sendMAVLinkMessage(&msg);
+    
+    MotorValues val;
+    hal_motors_get(&val);
+    float valuesOut[MAVLINK_MSG_DEBUG_FLOAT_ARRAY_FIELD_DATA_LEN] = {val.backLeft, val.backRight, val.frontLeft, val.frontRight};
+    mavlink_msg_debug_float_array_pack(1, MAV_COMP_ID_AUTOPILOT1, &msg, 0, "Motors", 0, valuesOut);
     sendMAVLinkMessage(&msg);
 }
 
